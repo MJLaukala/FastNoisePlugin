@@ -214,7 +214,6 @@ private:
 	static float SingleSimplexFractalFbm2D(int32 Seed, float Lacunarity, float Gain, int32 Octaves, float X, float Y);
 	static float SingleSimplexFractalBillow2D(int32 Seed, float Lacunarity, float Gain, int32 Octaves, float X, float Y);
 	static float SingleSimplexFractalRigidMulti2D(int32 Seed, float Lacunarity, float Gain, int32 Octaves, float X, float Y);
-	static float SingleSimplexFractalBlend2D(int32 Seed, float Lacunarity, float Gain, int32 Octaves, float X, float Y);
 	static float SingleSimplex2D(int32 Seed, float X, float Y);
 	static float SingleCubicFractalFbm2D(int32 Seed, float Lacunarity, float Gain, int32 Octaves, float X, float Y);
 	static float SingleCubicFractalBillow2D(int32 Seed, float Lacunarity, float Gain, int32 Octaves, float X, float Y);
