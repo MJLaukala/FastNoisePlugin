@@ -64,7 +64,7 @@ enum class ESelectInterpolationType : uint8
 };
 
 UCLASS() 
-class FASTNOISEPLUGIN_API UFastNoiseFunctionLibrary : public UBlueprintFunctionLibrary
+class FASTNOISEPLUGIN_API UFastNoiseFunctionLibrary final : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 
@@ -105,38 +105,102 @@ public:
 
 	// Simplified wrappers
 	//2D
-	static float GetValue2D(int32 Seed, float Frequency, EInterpolation Interpolation, FVector2D Coordinates);
-	static float GetValueFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, FVector2D Coordinates);
-	static float GetPerlin2D(int32 Seed, float Frequency, EInterpolation Interpolation, FVector2D Coordinates);
-	static float GetPerlinFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, FVector2D Coordinates);
-	static float GetSimplex2D(int32 Seed, float Frequency, FVector2D Coordinates);
-	static float GetSimplexFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, FVector2D Coordinates);
-	static float GetWhiteNoise2D(int32 Seed, FVector2D Coordinates);
-	static float GetWhiteNoiseInt2D(int32 Seed, FIntPoint Coordinates);
-	static float GetCubic2D(int32 Seed, float Frequency, FVector2D Coordinates);
-	static float GetCubicFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, FVector2D Coordinates);
+	static float GetValue2D(int32 Seed, float Frequency, EInterpolation Interpolation, const FVector2D& Coordinates);
+	static float GetValueFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, const FVector2D& Coordinates);
+	static float GetPerlin2D(int32 Seed, float Frequency, EInterpolation Interpolation, const FVector2D& Coordinates);
+	static float GetPerlinFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, const FVector2D& Coordinates);
+	static float GetSimplex2D(int32 Seed, float Frequency, const FVector2D& Coordinates);
+	static float GetSimplexFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, const FVector2D& Coordinates);
+	static float GetWhiteNoise2D(int32 Seed, const FVector2D& Coordinates);
+	static float GetWhiteNoiseInt2D(int32 Seed, const FIntPoint& Coordinates);
+	static float GetCubic2D(int32 Seed, float Frequency, const FVector2D& Coordinates);
+	static float GetCubicFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, const FVector2D& Coordinates);
 	static void GradientPerturb2D(int32 Seed, float Perturb, float Frequency, EInterpolation Interpolation, FVector2D& Coordinates);
 	static void GradientPerturbFractal2D(int32 Seed, float Perturb, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, FVector2D& Coordinates);
 
 	//3D
-	static float GetValue3D(int32 Seed, float Frequency, EInterpolation Interpolation, FVector Coordinates);
-	static float GetValueFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, FVector Coordinates);
-	static float GetPerlin3D(int32 Seed, float Frequency, EInterpolation Interpolation, FVector Coordinates);
-	static float GetPerlinFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, FVector Coordinates);
-	static float GetSimplex3D(int32 Seed, float Frequency, FVector Coordinates);
-	static float GetSimplexFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, FVector Coordinates);
-	static float GetWhiteNoise3D(int32 Seed, FVector Coordinates);
-	static float GetWhiteNoiseInt3D(int32 Seed, FIntVector Coordinates);
-	static float GetCubic3D(int32 Seed, float Frequency, FVector Coordinates);
-	static float GetCubicFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, FVector Coordinates);
+	static float GetValue3D(int32 Seed, float Frequency, EInterpolation Interpolation, const FVector& Coordinates);
+	static float GetValueFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, const FVector& Coordinates);
+	static float GetPerlin3D(int32 Seed, float Frequency, EInterpolation Interpolation, const FVector& Coordinates);
+	static float GetPerlinFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, const FVector& Coordinates);
+	static float GetSimplex3D(int32 Seed, float Frequency, const FVector& Coordinates);
+	static float GetSimplexFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, const FVector& Coordinates);
+	static float GetWhiteNoise3D(int32 Seed, const FVector& Coordinates);
+	static float GetWhiteNoiseInt3D(int32 Seed, const FIntVector& Coordinates);
+	static float GetCubic3D(int32 Seed, float Frequency, const FVector& Coordinates);
+	static float GetCubicFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, const FVector& Coordinates);
 	static void GradientPerturb3D(int32 Seed, float Perturb, float Frequency, EInterpolation Interpolation, FVector& Coordinates);
 	static void GradientPerturbFractal3D(int32 Seed, float Perturb, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, FVector& Coordinates);
 
 	//4D
-	static float GetSimplex4D(int32 Seed, float Frequency, FVector4 Coordinates);
-	static float GetSimplexFractal4D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, FVector4 Coordinates);
-	static float GetWhiteNoise4D(int32 Seed, FVector4 Coordinates);
-	static float GetWhiteNoiseInt4D(int32 Seed, FIntVector4 Coordinates);
+	static float GetSimplex4D(int32 Seed, float Frequency, const FVector4& Coordinates);
+	static float GetSimplexFractal4D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, const FVector4& Coordinates);
+	static float GetWhiteNoise4D(int32 Seed, const FVector4& Coordinates);
+	static float GetWhiteNoiseInt4D(int32 Seed, const FIntVector4& Coordinates);
+
+	// Blueprint wrappers
+	//2D
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetValue2D"))
+	static float Blueprint_GetValue2D(int32 Seed, float Frequency, EInterpolation Interpolation, const FVector2D& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetValueFractal2D"))
+	static float Blueprint_GetValueFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, const FVector2D& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetPerlin2D"))
+	static float Blueprint_GetPerlin2D(int32 Seed, float Frequency, EInterpolation Interpolation, const FVector2D& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetPerlinFractal2D"))
+	static float Blueprint_GetPerlinFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, const FVector2D& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetSimplex2D"))
+	static float Blueprint_GetSimplex2D(int32 Seed, float Frequency, const FVector2D& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetSimplexFractal2D"))
+	static float Blueprint_GetSimplexFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, const FVector2D& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetWhiteNoise2D"))
+	static float Blueprint_GetWhiteNoise2D(int32 Seed, const FVector2D& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetWhiteNoiseInt2D"))
+	static float Blueprint_GetWhiteNoiseInt2D(int32 Seed, const FIntPoint& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetCubic2D"))
+	static float Blueprint_GetCubic2D(int32 Seed, float Frequency, const FVector2D& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetCubicFractal2D"))
+	static float Blueprint_GetCubicFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, const FVector2D& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GradientPerturb2D"))
+	static void Blueprint_GradientPerturb2D(int32 Seed, float Perturb, float Frequency, EInterpolation Interpolation, FVector2D& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GradientPerturbFractal2D"))
+	static void Blueprint_GradientPerturbFractal2D(int32 Seed, float Perturb, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, FVector2D& Coordinates);
+
+	//3D
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetValue3D"))
+	static float Blueprint_GetValue3D(int32 Seed, float Frequency, EInterpolation Interpolation, const FVector& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetValueFractal3D"))
+	static float Blueprint_GetValueFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, const FVector& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetPerlin3D"))
+	static float Blueprint_GetPerlin3D(int32 Seed, float Frequency, EInterpolation Interpolation, const FVector& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetPerlinFractal3D"))
+	static float Blueprint_GetPerlinFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, const FVector& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetSimplex3D"))
+	static float Blueprint_GetSimplex3D(int32 Seed, float Frequency, const FVector& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetSimplexFractal3D"))
+	static float Blueprint_GetSimplexFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, const FVector& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetWhiteNoise3D"))
+	static float Blueprint_GetWhiteNoise3D(int32 Seed, const FVector& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetWhiteNoiseInt3D"))
+	static float Blueprint_GetWhiteNoiseInt3D(int32 Seed, const FIntVector& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetCubic3D"))
+	static float Blueprint_GetCubic3D(int32 Seed, float Frequency, const FVector& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetCubicFractal3D"))
+	static float Blueprint_GetCubicFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, const FVector& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GradientPerturb3D"))
+	static void Blueprint_GradientPerturb3D(int32 Seed, float Perturb, float Frequency, EInterpolation Interpolation, UPARAM(ref) FVector& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GradientPerturbFractal3D"))
+	static void Blueprint_GradientPerturbFractal3D(int32 Seed, float Perturb, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, UPARAM(ref) FVector& Coordinates);
+
+	//4D
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetSimplex4D"))
+	static float Blueprint_GetSimplex4D(int32 Seed, float Frequency, const FVector4& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetSimplexFractal4D"))
+	static float Blueprint_GetSimplexFractal4D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, const FVector4& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetWhiteNoise4D"))
+	static float Blueprint_GetWhiteNoise4D(int32 Seed, const FVector4& Coordinates);
+	UFUNCTION(BlueprintPure, Category = "FastNoise", meta=(DisplayName="GetWhiteNoiseInt4D"))
+	static float Blueprint_GetWhiteNoiseInt4D(int32 Seed, int32 X, int32 Y, int32 Z, int32 W);
+
 private:
 	//2D
 	static float SingleValueFractalFbm2D(int32 Seed, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, float X, float Y);

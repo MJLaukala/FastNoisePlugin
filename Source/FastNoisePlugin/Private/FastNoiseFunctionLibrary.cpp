@@ -93,26 +93,26 @@ const FVector GCell3D[] =
 };
 
 
-static float InterpHermiteFunc(float T) { return T * T * (3 - 2 * T); }
-static float InterpQuinticFunc(float T) { return T * T * T * (T * (T * 6 - 15) + 10); }
-static float CubicLerp(float A, float B, float C, float D, float T)
+static float InterpHermiteFunc(const float T) { return T * T * (3 - 2 * T); }
+static float InterpQuinticFunc(const float T) { return T * T * T * (T * (T * 6 - 15) + 10); }
+static float CubicLerp(const float A, const float B, const float C, const float D, const float T)
 {
-	float P = (D - C) - (A - B);
+	const float P = (D - C) - (A - B);
 	return T * T * T * P + T * T * ((A - B) - P) + T * (C - A) + B;
 }
 
-const float CUBIC_3D_BOUNDING = 1 / (float(1.5) * float(1.5) * float(1.5));
-const float CUBIC_2D_BOUNDING = 1 / (float(1.5) * float(1.5));
+const float GCubic_3D_Bounding = 1 / (static_cast<float>(1.5) * static_cast<float>(1.5) * static_cast<float>(1.5));
+const float GCubic_2D_Bounding = 1 / (static_cast<float>(1.5) * static_cast<float>(1.5));
 
-static const float G4 = (5 - sqrt(float(5))) / 20;
-static const float F4 = (sqrt(float(5)) - 1) / 4;
+static const float G4 = (5 - sqrt(static_cast<float>(5))) / 20;
+static const float F4 = (sqrt(static_cast<float>(5)) - 1) / 4;
 
-static const float F3 = 1 / float(3);
-static const float G3 = 1 / float(6);
+static const float F3 = 1 / static_cast<float>(3);
+static const float G3 = 1 / static_cast<float>(6);
 
-static const float SQRT3 = float(1.7320508075688772935274463415059);
-static const float F2 = float(0.5) * (SQRT3 - float(1.0));
-static const float G2 = (float(3.0) - SQRT3) / float(6.0);
+static const float GSqrt3 = static_cast<float>(1.7320508075688772935274463415059);
+static const float F2 = static_cast<float>(0.5) * (GSqrt3 - static_cast<float>(1.0));
+static const float G2 = (static_cast<float>(3.0) - GSqrt3) / static_cast<float>(6.0);
 
 // Hashing
 #define X_PRIME 1619
@@ -420,52 +420,52 @@ float UFastNoiseFunctionLibrary::GetWhiteNoiseInt4D(int32 Seed, int32 X, int32 Y
 	return SeededCoordinateValue4D(Seed, X, Y, Z, W);
 }
 
-float UFastNoiseFunctionLibrary::GetValue2D(int32 Seed, float Frequency, EInterpolation Interpolation, FVector2D Coordinates)
+float UFastNoiseFunctionLibrary::GetValue2D(int32 Seed, float Frequency, EInterpolation Interpolation, const FVector2D& Coordinates)
 {
 	return GetValue2D(Seed, Frequency, Interpolation, Coordinates.X, Coordinates.Y);
 }
 
-float UFastNoiseFunctionLibrary::GetValueFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, FVector2D Coordinates)
+float UFastNoiseFunctionLibrary::GetValueFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, const FVector2D& Coordinates)
 {
 	return GetValueFractal2D(Seed, Frequency, Lacunarity, Gain, Octaves, Interpolation, FractalType, Coordinates.X, Coordinates.Y);
 }
 
-float UFastNoiseFunctionLibrary::GetPerlin2D(int32 Seed, float Frequency, EInterpolation Interpolation, FVector2D Coordinates)
+float UFastNoiseFunctionLibrary::GetPerlin2D(int32 Seed, float Frequency, EInterpolation Interpolation, const FVector2D& Coordinates)
 {
 	return GetPerlin2D(Seed, Frequency, Interpolation, Coordinates.X, Coordinates.Y);
 }
 
-float UFastNoiseFunctionLibrary::GetPerlinFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, FVector2D Coordinates)
+float UFastNoiseFunctionLibrary::GetPerlinFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, const FVector2D& Coordinates)
 {
 	return GetPerlinFractal2D(Seed, Frequency, Lacunarity, Gain, Octaves, Interpolation, FractalType, Coordinates.X, Coordinates.Y);
 }
 
-float UFastNoiseFunctionLibrary::GetSimplex2D(int32 Seed, float Frequency, FVector2D Coordinates)
+float UFastNoiseFunctionLibrary::GetSimplex2D(int32 Seed, float Frequency, const FVector2D& Coordinates)
 {
 	return GetSimplex2D(Seed, Frequency, Coordinates.X, Coordinates.Y);
 }
 
-float UFastNoiseFunctionLibrary::GetSimplexFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, FVector2D Coordinates)
+float UFastNoiseFunctionLibrary::GetSimplexFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, const FVector2D& Coordinates)
 {
 	return GetSimplexFractal2D(Seed, Frequency, Lacunarity, Gain, Octaves, FractalType, Coordinates.X, Coordinates.Y);
 }
 
-float UFastNoiseFunctionLibrary::GetWhiteNoise2D(int32 Seed, FVector2D Coordinates)
+float UFastNoiseFunctionLibrary::GetWhiteNoise2D(int32 Seed, const FVector2D& Coordinates)
 {
 	return GetWhiteNoise2D(Seed, Coordinates.X, Coordinates.Y);
 }
 
-float UFastNoiseFunctionLibrary::GetWhiteNoiseInt2D(int32 Seed, FIntPoint Coordinates)
+float UFastNoiseFunctionLibrary::GetWhiteNoiseInt2D(int32 Seed, const FIntPoint& Coordinates)
 {
 	return GetWhiteNoiseInt2D(Seed, Coordinates.X, Coordinates.Y);
 }
 
-float UFastNoiseFunctionLibrary::GetCubic2D(int32 Seed, float Frequency, FVector2D Coordinates)
+float UFastNoiseFunctionLibrary::GetCubic2D(int32 Seed, float Frequency, const FVector2D& Coordinates)
 {
 	return GetCubic2D(Seed, Frequency, Coordinates.X, Coordinates.Y);
 }
 
-float UFastNoiseFunctionLibrary::GetCubicFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, FVector2D Coordinates)
+float UFastNoiseFunctionLibrary::GetCubicFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, const FVector2D& Coordinates)
 {
 	return GetCubicFractal2D(Seed, Frequency, Lacunarity, Gain, Octaves, FractalType, Coordinates.X, Coordinates.Y);
 }
@@ -480,52 +480,52 @@ void UFastNoiseFunctionLibrary::GradientPerturbFractal2D(int32 Seed, float Pertu
 	return GradientPerturbFractal2D(Seed, Perturb, Frequency, Lacunarity, Gain, Octaves, Interpolation, Coordinates.X, Coordinates.Y);
 }
 
-float UFastNoiseFunctionLibrary::GetValue3D(int32 Seed, float Frequency, EInterpolation Interpolation, FVector Coordinates)
+float UFastNoiseFunctionLibrary::GetValue3D(int32 Seed, float Frequency, EInterpolation Interpolation, const FVector& Coordinates)
 {
 	return GetValue3D(Seed, Frequency, Interpolation, Coordinates.X, Coordinates.Y, Coordinates.Z);
 }
 
-float UFastNoiseFunctionLibrary::GetValueFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, FVector Coordinates)
+float UFastNoiseFunctionLibrary::GetValueFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, const FVector& Coordinates)
 {
 	return GetValueFractal3D(Seed, Frequency, Lacunarity, Gain, Octaves, Interpolation, FractalType, Coordinates.X, Coordinates.Y, Coordinates.Z);
 }
 
-float UFastNoiseFunctionLibrary::GetPerlin3D(int32 Seed, float Frequency, EInterpolation Interpolation, FVector Coordinates)
+float UFastNoiseFunctionLibrary::GetPerlin3D(int32 Seed, float Frequency, EInterpolation Interpolation, const FVector& Coordinates)
 {
 	return GetPerlin3D(Seed, Frequency, Interpolation, Coordinates.X, Coordinates.Y, Coordinates.Z);
 }
 
-float UFastNoiseFunctionLibrary::GetPerlinFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, FVector Coordinates)
+float UFastNoiseFunctionLibrary::GetPerlinFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, const FVector& Coordinates)
 {
 	return GetPerlinFractal3D(Seed, Frequency, Lacunarity, Gain, Octaves, Interpolation, FractalType, Coordinates.X, Coordinates.Y, Coordinates.Z);
 }
 
-float UFastNoiseFunctionLibrary::GetSimplex3D(int32 Seed, float Frequency, FVector Coordinates)
+float UFastNoiseFunctionLibrary::GetSimplex3D(int32 Seed, float Frequency, const FVector& Coordinates)
 {
 	return GetSimplex3D(Seed, Frequency, Coordinates.X, Coordinates.Y, Coordinates.Z);
 }
 
-float UFastNoiseFunctionLibrary::GetSimplexFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, FVector Coordinates)
+float UFastNoiseFunctionLibrary::GetSimplexFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, const FVector& Coordinates)
 {
 	return GetSimplexFractal3D(Seed, Frequency, Lacunarity, Gain, Octaves, FractalType, Coordinates.X, Coordinates.Y, Coordinates.Z);
 }
 
-float UFastNoiseFunctionLibrary::GetWhiteNoise3D(int32 Seed, FVector Coordinates)
+float UFastNoiseFunctionLibrary::GetWhiteNoise3D(int32 Seed, const FVector& Coordinates)
 {
 	return GetWhiteNoise3D(Seed, Coordinates.X, Coordinates.Y, Coordinates.Z);
 }
 
-float UFastNoiseFunctionLibrary::GetWhiteNoiseInt3D(int32 Seed, FIntVector Coordinates)
+float UFastNoiseFunctionLibrary::GetWhiteNoiseInt3D(int32 Seed, const FIntVector& Coordinates)
 {
 	return GetWhiteNoiseInt3D(Seed, Coordinates.X, Coordinates.Y, Coordinates.Z);
 }
 
-float UFastNoiseFunctionLibrary::GetCubic3D(int32 Seed, float Frequency, FVector Coordinates)
+float UFastNoiseFunctionLibrary::GetCubic3D(int32 Seed, float Frequency, const FVector& Coordinates)
 {
 	return GetCubic3D(Seed, Frequency, Coordinates.X, Coordinates.Y, Coordinates.Z);
 }
 
-float UFastNoiseFunctionLibrary::GetCubicFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, FVector Coordinates)
+float UFastNoiseFunctionLibrary::GetCubicFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, const FVector& Coordinates)
 {
 	return GetCubicFractal3D(Seed, Frequency, Lacunarity, Gain, Octaves, FractalType, Coordinates.X, Coordinates.Y, Coordinates.Z);
 }
@@ -540,24 +540,164 @@ void UFastNoiseFunctionLibrary::GradientPerturbFractal3D(int32 Seed, float Pertu
 	return GradientPerturbFractal3D(Seed, Perturb, Frequency, Lacunarity, Gain, Octaves, Interpolation, Coordinates.X, Coordinates.Y, Coordinates.Z);
 }
 
-float UFastNoiseFunctionLibrary::GetSimplex4D(int32 Seed, float Frequency, FVector4 Coordinates)
+float UFastNoiseFunctionLibrary::GetSimplex4D(int32 Seed, float Frequency, const FVector4& Coordinates)
 {
 	return GetSimplex4D(Seed, Frequency, Coordinates.X, Coordinates.Y, Coordinates.Z, Coordinates.W);
 }
 
-float UFastNoiseFunctionLibrary::GetSimplexFractal4D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, FVector4 Coordinates)
+float UFastNoiseFunctionLibrary::GetSimplexFractal4D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, const FVector4& Coordinates)
 {
 	return GetSimplexFractal4D(Seed, Frequency, Lacunarity, Gain, Octaves, FractalType, Coordinates.X, Coordinates.Y, Coordinates.Z, Coordinates.W);
 }
 
-float UFastNoiseFunctionLibrary::GetWhiteNoise4D(int32 Seed, FVector4 Coordinates)
+float UFastNoiseFunctionLibrary::GetWhiteNoise4D(int32 Seed, const FVector4& Coordinates)
 {
 	return GetWhiteNoise4D(Seed, Coordinates.X, Coordinates.Y, Coordinates.Z, Coordinates.W);
 }
 
-float UFastNoiseFunctionLibrary::GetWhiteNoiseInt4D(int32 Seed, FIntVector4 Coordinates)
+float UFastNoiseFunctionLibrary::GetWhiteNoiseInt4D(int32 Seed, const FIntVector4& Coordinates)
 {
 	return GetWhiteNoiseInt4D(Seed, Coordinates.X, Coordinates.Y, Coordinates.Z, Coordinates.W);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetValue2D(int32 Seed, float Frequency, EInterpolation Interpolation, const FVector2D& Coordinates)
+{
+	return GetValue2D(Seed, Frequency, Interpolation, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetValueFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, const FVector2D& Coordinates)
+{
+	return GetValueFractal2D(Seed, Frequency, Lacunarity, Gain, Octaves, Interpolation, FractalType, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetPerlin2D(int32 Seed, float Frequency, EInterpolation Interpolation, const FVector2D& Coordinates)
+{
+	return GetPerlin2D(Seed, Frequency, Interpolation, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetPerlinFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, const FVector2D& Coordinates)
+{
+	return GetPerlinFractal2D(Seed, Frequency, Lacunarity, Gain, Octaves, Interpolation, FractalType, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetSimplex2D(int32 Seed, float Frequency, const FVector2D& Coordinates)
+{
+	return GetSimplex2D(Seed, Frequency, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetSimplexFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, const FVector2D& Coordinates)
+{
+	return GetSimplexFractal2D(Seed, Frequency, Lacunarity, Gain, Octaves, FractalType, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetWhiteNoise2D(int32 Seed, const FVector2D& Coordinates)
+{
+	return GetWhiteNoise2D(Seed, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetWhiteNoiseInt2D(int32 Seed, const FIntPoint& Coordinates)
+{
+	return GetWhiteNoiseInt2D(Seed, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetCubic2D(int32 Seed, float Frequency, const FVector2D& Coordinates)
+{
+	return GetCubic2D(Seed, Frequency, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetCubicFractal2D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, const FVector2D& Coordinates)
+{
+	return GetCubicFractal2D(Seed, Frequency, Lacunarity, Gain, Octaves, FractalType, Coordinates);
+}
+
+void UFastNoiseFunctionLibrary::Blueprint_GradientPerturb2D(int32 Seed, float Perturb, float Frequency, EInterpolation Interpolation, FVector2D& Coordinates)
+{
+	return GradientPerturb2D(Seed, Perturb, Frequency, Interpolation, Coordinates);
+}
+
+void UFastNoiseFunctionLibrary::Blueprint_GradientPerturbFractal2D(int32 Seed, float Perturb, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, FVector2D& Coordinates)
+{
+	return GradientPerturbFractal2D(Seed, Perturb, Frequency, Lacunarity, Gain, Octaves, Interpolation, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetValue3D(int32 Seed, float Frequency, EInterpolation Interpolation, const FVector& Coordinates)
+{
+	return GetValue3D(Seed, Frequency, Interpolation, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetValueFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, const FVector& Coordinates)
+{
+	return GetValueFractal3D(Seed, Frequency, Lacunarity, Gain, Octaves, Interpolation, FractalType, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetPerlin3D(int32 Seed, float Frequency, EInterpolation Interpolation, const FVector& Coordinates)
+{
+	return GetPerlin3D(Seed, Frequency, Interpolation, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetPerlinFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, EFractalType FractalType, const FVector& Coordinates)
+{
+	return GetPerlinFractal3D(Seed, Frequency, Lacunarity, Gain, Octaves, Interpolation, FractalType, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetSimplex3D(int32 Seed, float Frequency, const FVector& Coordinates)
+{
+	return GetSimplex3D(Seed, Frequency, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetSimplexFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, const FVector& Coordinates)
+{
+	return GetSimplexFractal3D(Seed, Frequency, Lacunarity, Gain, Octaves, FractalType, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetWhiteNoise3D(int32 Seed, const FVector& Coordinates)
+{
+	return GetWhiteNoise3D(Seed, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetWhiteNoiseInt3D(int32 Seed, const FIntVector& Coordinates)
+{
+	return GetWhiteNoiseInt3D(Seed, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetCubic3D(int32 Seed, float Frequency, const FVector& Coordinates)
+{
+	return GetCubic3D(Seed, Frequency, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetCubicFractal3D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, const FVector& Coordinates)
+{
+	return GetCubicFractal3D(Seed, Frequency, Lacunarity, Gain, Octaves, FractalType, Coordinates);
+}
+
+void UFastNoiseFunctionLibrary::Blueprint_GradientPerturb3D(int32 Seed, float Perturb, float Frequency, EInterpolation Interpolation, FVector& Coordinates)
+{
+	return GradientPerturb3D(Seed, Perturb, Frequency, Interpolation, Coordinates);
+}
+
+void UFastNoiseFunctionLibrary::Blueprint_GradientPerturbFractal3D(int32 Seed, float Perturb, float Frequency, float Lacunarity, float Gain, int32 Octaves, EInterpolation Interpolation, FVector& Coordinates)
+{
+	return GradientPerturbFractal3D(Seed, Perturb, Frequency, Lacunarity, Gain, Octaves, Interpolation, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetSimplex4D(int32 Seed, float Frequency, const FVector4& Coordinates)
+{
+	return GetSimplex4D(Seed, Frequency, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetSimplexFractal4D(int32 Seed, float Frequency, float Lacunarity, float Gain, int32 Octaves, EFractalType FractalType, const FVector4& Coordinates)
+{
+	return GetSimplexFractal4D(Seed, Frequency, Lacunarity, Gain, Octaves, FractalType, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetWhiteNoise4D(int32 Seed, const FVector4& Coordinates)
+{
+	return GetWhiteNoise4D(Seed, Coordinates);
+}
+
+float UFastNoiseFunctionLibrary::Blueprint_GetWhiteNoiseInt4D(int32 Seed, int32 X, int32 Y, int32 Z, int32 W)
+{
+	return GetWhiteNoiseInt4D(Seed, X, Y, Z, W);
 }
 
 // private 2D
@@ -616,30 +756,30 @@ float UFastNoiseFunctionLibrary::SingleValueFractalRigidMulti2D(int32 Seed, floa
 
 float UFastNoiseFunctionLibrary::SingleValue2D(int32 Seed, EInterpolation Interpolation, float X, float Y)
 {
-	int32 x0 = FMath::Floor(X);
-	int32 y0 = FMath::Floor(Y);
-	int32 x1 = x0 + 1;
-	int32 y1 = y0 + 1;
+	const int32 x0 = FMath::Floor(X);
+	const int32 y0 = FMath::Floor(Y);
+	const int32 x1 = x0 + 1;
+	const int32 y1 = y0 + 1;
 
 	float xs, ys;
 	switch (Interpolation)
 	{
 	case EInterpolation::Linear:
-		xs = X - (float)x0;
-		ys = Y - (float)y0;
+		xs = X - static_cast<float>(x0);
+		ys = Y - static_cast<float>(y0);
 		break;
 	case EInterpolation::Hermite:
-		xs = InterpHermiteFunc(X - (float)x0);
-		ys = InterpHermiteFunc(Y - (float)y0);
+		xs = InterpHermiteFunc(X - static_cast<float>(x0));
+		ys = InterpHermiteFunc(Y - static_cast<float>(y0));
 		break;
 	case EInterpolation::Quintic:
-		xs = InterpQuinticFunc(X - (float)x0);
-		ys = InterpQuinticFunc(Y - (float)y0);
+		xs = InterpQuinticFunc(X - static_cast<float>(x0));
+		ys = InterpQuinticFunc(Y - static_cast<float>(y0));
 		break;
 	}
 
-	float xf0 = FMath::Lerp(SeededCoordinateValue2D(Seed, x0, y0), SeededCoordinateValue2D(Seed, x1, y0), xs);
-	float xf1 = FMath::Lerp(SeededCoordinateValue2D(Seed, x0, y1), SeededCoordinateValue2D(Seed, x1, y1), xs);
+	const float xf0 = FMath::Lerp(SeededCoordinateValue2D(Seed, x0, y0), SeededCoordinateValue2D(Seed, x1, y0), xs);
+	const float xf1 = FMath::Lerp(SeededCoordinateValue2D(Seed, x0, y1), SeededCoordinateValue2D(Seed, x1, y1), xs);
 
 	return FMath::Lerp(xf0, xf1, ys);
 }
@@ -700,35 +840,35 @@ float UFastNoiseFunctionLibrary::SinglePerlinFractalRigidMulti2D(int32 Seed, flo
 
 float UFastNoiseFunctionLibrary::SinglePerlin2D(int32 Seed, EInterpolation Interpolation, float X, float Y)
 {
-	int32 x0 = FMath::Floor(X);
-	int32 y0 = FMath::Floor(Y);
-	int32 x1 = x0 + 1;
-	int32 y1 = y0 + 1;
+	const int32 x0 = FMath::Floor(X);
+	const int32 y0 = FMath::Floor(Y);
+	const int32 x1 = x0 + 1;
+	const int32 y1 = y0 + 1;
 
 	float xs, ys;
 	switch (Interpolation)
 	{
 	case EInterpolation::Linear:
-		xs = X - (float)x0;
-		ys = Y - (float)y0;
+		xs = X - static_cast<float>(x0);
+		ys = Y - static_cast<float>(y0);
 		break;
 	case EInterpolation::Hermite:
-		xs = InterpHermiteFunc(X - (float)x0);
-		ys = InterpHermiteFunc(Y - (float)y0);
+		xs = InterpHermiteFunc(X - static_cast<float>(x0));
+		ys = InterpHermiteFunc(Y - static_cast<float>(y0));
 		break;
 	case EInterpolation::Quintic:
-		xs = InterpQuinticFunc(X - (float)x0);
-		ys = InterpQuinticFunc(Y - (float)y0);
+		xs = InterpQuinticFunc(X - static_cast<float>(x0));
+		ys = InterpQuinticFunc(Y - static_cast<float>(y0));
 		break;
 	}
 
-	float xd0 = X - (float)x0;
-	float yd0 = Y - (float)y0;
-	float xd1 = xd0 - 1;
-	float yd1 = yd0 - 1;
+	const float xd0 = X - static_cast<float>(x0);
+	const float yd0 = Y - static_cast<float>(y0);
+	const float xd1 = xd0 - 1;
+	const float yd1 = yd0 - 1;
 
-	float xf0 = FMath::Lerp(GradientCoordinateValue2D(Seed, x0, y0, xd0, yd0), GradientCoordinateValue2D(Seed, x1, y0, xd1, yd0), xs);
-	float xf1 = FMath::Lerp(GradientCoordinateValue2D(Seed, x0, y1, xd0, yd1), GradientCoordinateValue2D(Seed, x1, y1, xd1, yd1), xs);
+	const float xf0 = FMath::Lerp(GradientCoordinateValue2D(Seed, x0, y0, xd0, yd0), GradientCoordinateValue2D(Seed, x1, y0, xd1, yd0), xs);
+	const float xf1 = FMath::Lerp(GradientCoordinateValue2D(Seed, x0, y1, xd0, yd1), GradientCoordinateValue2D(Seed, x1, y1, xd1, yd1), xs);
 
 	return FMath::Lerp(xf0, xf1, ys);
 }
@@ -808,15 +948,15 @@ float UFastNoiseFunctionLibrary::SingleSimplexFractalBlend2D(int32 Seed, float L
 float UFastNoiseFunctionLibrary::SingleSimplex2D(int32 Seed, float X, float Y)
 {
 	float t = (X + Y) * F2;
-	int32 i = FMath::Floor(X + t);
-	int32 j = FMath::Floor(Y + t);
+	const int32 i = FMath::Floor(X + t);
+	const int32 j = FMath::Floor(Y + t);
 
 	t = (i + j) * G2;
-	float X0 = i - t;
-	float Y0 = j - t;
+	const float X0 = i - t;
+	const float Y0 = j - t;
 
-	float x0 = X - X0;
-	float y0 = Y - Y0;
+	const float x0 = X - X0;
+	const float y0 = Y - Y0;
 
 	int32 i1, j1;
 	if (x0 > y0)
@@ -828,14 +968,14 @@ float UFastNoiseFunctionLibrary::SingleSimplex2D(int32 Seed, float X, float Y)
 		i1 = 0; j1 = 1;
 	}
 
-	float x1 = x0 - (float)i1 + G2;
-	float y1 = y0 - (float)j1 + G2;
-	float x2 = x0 - 1 + 2 * G2;
-	float y2 = y0 - 1 + 2 * G2;
+	const float x1 = x0 - static_cast<float>(i1) + G2;
+	const float y1 = y0 - static_cast<float>(j1) + G2;
+	const float x2 = x0 - 1 + 2 * G2;
+	const float y2 = y0 - 1 + 2 * G2;
 
 	float n0, n1, n2;
 
-	t = float(0.5) - x0 * x0 - y0 * y0;
+	t = static_cast<float>(0.5) - x0 * x0 - y0 * y0;
 	if (t < 0) n0 = 0;
 	else
 	{
@@ -843,7 +983,7 @@ float UFastNoiseFunctionLibrary::SingleSimplex2D(int32 Seed, float X, float Y)
 		n0 = t * t * GradientCoordinateValue2D(Seed, i, j, x0, y0);
 	}
 
-	t = float(0.5) - x1 * x1 - y1 * y1;
+	t = static_cast<float>(0.5) - x1 * x1 - y1 * y1;
 	if (t < 0) n1 = 0;
 	else
 	{
@@ -851,7 +991,7 @@ float UFastNoiseFunctionLibrary::SingleSimplex2D(int32 Seed, float X, float Y)
 		n1 = t * t * GradientCoordinateValue2D(Seed, i + i1, j + j1, x1, y1);
 	}
 
-	t = float(0.5) - x2 * x2 - y2 * y2;
+	t = static_cast<float>(0.5) - x2 * x2 - y2 * y2;
 	if (t < 0) n2 = 0;
 	else
 	{
@@ -918,66 +1058,66 @@ float UFastNoiseFunctionLibrary::SingleCubicFractalRigidMulti2D(int32 Seed, floa
 
 float UFastNoiseFunctionLibrary::SingleCubic2D(int32 Seed, float X, float Y)
 {
-	int32 x1 = FMath::Floor(X);
-	int32 y1 = FMath::Floor(Y);
+	const int32 x1 = FMath::Floor(X);
+	const int32 y1 = FMath::Floor(Y);
 
-	int32 x0 = x1 - 1;
-	int32 y0 = y1 - 1;
-	int32 x2 = x1 + 1;
-	int32 y2 = y1 + 1;
-	int32 x3 = x1 + 2;
-	int32 y3 = y1 + 2;
+	const int32 x0 = x1 - 1;
+	const int32 y0 = y1 - 1;
+	const int32 x2 = x1 + 1;
+	const int32 y2 = y1 + 1;
+	const int32 x3 = x1 + 2;
+	const int32 y3 = y1 + 2;
 
-	float xs = X - (float)x1;
-	float ys = Y - (float)y1;
+	const float xs = X - static_cast<float>(x1);
+	const float ys = Y - static_cast<float>(y1);
 
 	return CubicLerp(
 		CubicLerp(SeededCoordinateValue2D(Seed, x0, y0), SeededCoordinateValue2D(Seed, x1, y0), SeededCoordinateValue2D(Seed, x2, y0), SeededCoordinateValue2D(Seed, x3, y0), xs),
 		CubicLerp(SeededCoordinateValue2D(Seed, x0, y1), SeededCoordinateValue2D(Seed, x1, y1), SeededCoordinateValue2D(Seed, x2, y1), SeededCoordinateValue2D(Seed, x3, y1), xs),
 		CubicLerp(SeededCoordinateValue2D(Seed, x0, y2), SeededCoordinateValue2D(Seed, x1, y2), SeededCoordinateValue2D(Seed, x2, y2), SeededCoordinateValue2D(Seed, x3, y2), xs),
 		CubicLerp(SeededCoordinateValue2D(Seed, x0, y3), SeededCoordinateValue2D(Seed, x1, y3), SeededCoordinateValue2D(Seed, x2, y3), SeededCoordinateValue2D(Seed, x3, y3), xs),
-		ys) * CUBIC_2D_BOUNDING;
+		ys) * GCubic_2D_Bounding;
 }
 
 void UFastNoiseFunctionLibrary::SingleGradientPerturb2D(int32 Seed, float Perturb, float Frequency, EInterpolation Interpolation, float& X, float& Y)
 {
-	float xf = X * Frequency;
-	float yf = Y * Frequency;
+	const float xf = X * Frequency;
+	const float yf = Y * Frequency;
 
-	int32 x0 = FMath::Floor(xf);
-	int32 y0 = FMath::Floor(yf);
-	int32 x1 = x0 + 1;
-	int32 y1 = y0 + 1;
+	const int32 x0 = FMath::Floor(xf);
+	const int32 y0 = FMath::Floor(yf);
+	const int32 x1 = x0 + 1;
+	const int32 y1 = y0 + 1;
 
 	float xs, ys;
 	switch (Interpolation)
 	{
 	default:
 	case EInterpolation::Linear:
-		xs = xf - (float)x0;
-		ys = yf - (float)y0;
+		xs = xf - static_cast<float>(x0);
+		ys = yf - static_cast<float>(y0);
 		break;
 	case EInterpolation::Hermite:
-		xs = InterpHermiteFunc(xf - (float)x0);
-		ys = InterpHermiteFunc(yf - (float)y0);
+		xs = InterpHermiteFunc(xf - static_cast<float>(x0));
+		ys = InterpHermiteFunc(yf - static_cast<float>(y0));
 		break;
 	case EInterpolation::Quintic:
-		xs = InterpQuinticFunc(xf - (float)x0);
-		ys = InterpQuinticFunc(yf - (float)y0);
+		xs = InterpQuinticFunc(xf - static_cast<float>(x0));
+		ys = InterpQuinticFunc(yf - static_cast<float>(y0));
 		break;
 	}
 
 	FVector2D Cell2D1 = GCell2D[Hash2D(Seed, x0, y0) & 255];
 	FVector2D Cell2D2 = GCell2D[Hash2D(Seed, x1, y0) & 255];
-	
-	float lx0x = FMath::Lerp(Cell2D1.X, Cell2D2.X, xs);
-	float ly0x = FMath::Lerp(Cell2D1.Y, Cell2D2.Y, xs);
+
+	const float lx0x = FMath::Lerp(Cell2D1.X, Cell2D2.X, xs);
+	const float ly0x = FMath::Lerp(Cell2D1.Y, Cell2D2.Y, xs);
 
 	Cell2D1 = GCell2D[Hash2D(Seed, x0, y1) & 255];
 	Cell2D2 = GCell2D[Hash2D(Seed, x1, y1) & 255];
 
-	float lx1x = FMath::Lerp(Cell2D1.X, Cell2D2.X, xs);
-	float ly1x = FMath::Lerp(Cell2D1.Y, Cell2D2.Y, xs);
+	const float lx1x = FMath::Lerp(Cell2D1.X, Cell2D2.X, xs);
+	const float ly1x = FMath::Lerp(Cell2D1.Y, Cell2D2.Y, xs);
 
 	X += FMath::Lerp(lx0x, lx1x, ys) * Perturb;
 	Y += FMath::Lerp(ly0x, ly1x, ys) * Perturb;
@@ -989,7 +1129,7 @@ float UFastNoiseFunctionLibrary::SeededCoordinateValue2D(int32 Seed, int32 X, in
 	n ^= X_PRIME * X;
 	n ^= Y_PRIME * Y;
 
-	return (n * n * n * 60493) / float(2147483648);
+	return (n * n * n * 60493) / static_cast<float>(2147483648);
 }
 
 float UFastNoiseFunctionLibrary::GradientCoordinateValue2D(int32 Seed, int32 X, int32 Y, float Xd, float Yd)
@@ -998,6 +1138,7 @@ float UFastNoiseFunctionLibrary::GradientCoordinateValue2D(int32 Seed, int32 X, 
 	n ^= X_PRIME * X;
 	n ^= Y_PRIME * Y;
 	n = (n * n * n * 60493);
+	n = (n >> 13) ^ Seed;
 
 	const FIntPoint Gradient2D = GGradient2DLut[n & 7];
 	return Xd * Gradient2D.X + Yd * Gradient2D.Y;
@@ -1063,40 +1204,40 @@ float UFastNoiseFunctionLibrary::SingleValueFractalRigidMulti3D(int32 Seed, floa
 
 float UFastNoiseFunctionLibrary::SingleValue3D(int32 Seed, EInterpolation Interpolation, float X, float Y, float Z)
 {
-	int32 x0 = FMath::Floor(X);
-	int32 y0 = FMath::Floor(Y);
-	int32 z0 = FMath::Floor(Z);
-	int32 x1 = x0 + 1;
-	int32 y1 = y0 + 1;
-	int32 z1 = z0 + 1;
+	const int32 x0 = FMath::Floor(X);
+	const int32 y0 = FMath::Floor(Y);
+	const int32 z0 = FMath::Floor(Z);
+	const int32 x1 = x0 + 1;
+	const int32 y1 = y0 + 1;
+	const int32 z1 = z0 + 1;
 
 	float xs, ys, zs;
 	switch (Interpolation)
 	{
 	case EInterpolation::Linear:
-		xs = X - (float)x0;
-		ys = Y - (float)y0;
-		zs = Z - (float)z0;
+		xs = X - static_cast<float>(x0);
+		ys = Y - static_cast<float>(y0);
+		zs = Z - static_cast<float>(z0);
 		break;
 	case EInterpolation::Hermite:
-		xs = InterpHermiteFunc(X - (float)x0);
-		ys = InterpHermiteFunc(Y - (float)y0);
-		zs = InterpHermiteFunc(Z - (float)z0);
+		xs = InterpHermiteFunc(X - static_cast<float>(x0));
+		ys = InterpHermiteFunc(Y - static_cast<float>(y0));
+		zs = InterpHermiteFunc(Z - static_cast<float>(z0));
 		break;
 	case EInterpolation::Quintic:
-		xs = InterpQuinticFunc(X - (float)x0);
-		ys = InterpQuinticFunc(Y - (float)y0);
-		zs = InterpQuinticFunc(Z - (float)z0);
+		xs = InterpQuinticFunc(X - static_cast<float>(x0));
+		ys = InterpQuinticFunc(Y - static_cast<float>(y0));
+		zs = InterpQuinticFunc(Z - static_cast<float>(z0));
 		break;
 	}
 
-	float xf00 = FMath::Lerp(SeededCoordinateValue3D(Seed, x0, y0, z0), SeededCoordinateValue3D(Seed, x1, y0, z0), xs);
-	float xf10 = FMath::Lerp(SeededCoordinateValue3D(Seed, x0, y1, z0), SeededCoordinateValue3D(Seed, x1, y1, z0), xs);
-	float xf01 = FMath::Lerp(SeededCoordinateValue3D(Seed, x0, y0, z1), SeededCoordinateValue3D(Seed, x1, y0, z1), xs);
-	float xf11 = FMath::Lerp(SeededCoordinateValue3D(Seed, x0, y1, z1), SeededCoordinateValue3D(Seed, x1, y1, z1), xs);
+	const float xf00 = FMath::Lerp(SeededCoordinateValue3D(Seed, x0, y0, z0), SeededCoordinateValue3D(Seed, x1, y0, z0), xs);
+	const float xf10 = FMath::Lerp(SeededCoordinateValue3D(Seed, x0, y1, z0), SeededCoordinateValue3D(Seed, x1, y1, z0), xs);
+	const float xf01 = FMath::Lerp(SeededCoordinateValue3D(Seed, x0, y0, z1), SeededCoordinateValue3D(Seed, x1, y0, z1), xs);
+	const float xf11 = FMath::Lerp(SeededCoordinateValue3D(Seed, x0, y1, z1), SeededCoordinateValue3D(Seed, x1, y1, z1), xs);
 
-	float yf0 = FMath::Lerp(xf00, xf10, ys);
-	float yf1 = FMath::Lerp(xf01, xf11, ys);
+	const float yf0 = FMath::Lerp(xf00, xf10, ys);
+	const float yf1 = FMath::Lerp(xf01, xf11, ys);
 
 	return FMath::Lerp(yf0, yf1, zs);
 }
@@ -1160,47 +1301,47 @@ float UFastNoiseFunctionLibrary::SinglePerlinFractalRigidMulti3D(int32 Seed, flo
 
 float UFastNoiseFunctionLibrary::SinglePerlin3D(int32 Seed, EInterpolation Interpolation, float X, float Y, float Z)
 {
-	int32 x0 = FMath::Floor(X);
-	int32 y0 = FMath::Floor(Y);
-	int32 z0 = FMath::Floor(Z);
-	int32 x1 = x0 + 1;
-	int32 y1 = y0 + 1;
-	int32 z1 = z0 + 1;
+	const int32 x0 = FMath::Floor(X);
+	const int32 y0 = FMath::Floor(Y);
+	const int32 z0 = FMath::Floor(Z);
+	const int32 x1 = x0 + 1;
+	const int32 y1 = y0 + 1;
+	const int32 z1 = z0 + 1;
 
 	float xs, ys, zs;
 	switch (Interpolation)
 	{
 	case EInterpolation::Linear:
-		xs = X - (float)x0;
-		ys = Y - (float)y0;
-		zs = Z - (float)z0;
+		xs = X - static_cast<float>(x0);
+		ys = Y - static_cast<float>(y0);
+		zs = Z - static_cast<float>(z0);
 		break;
 	case EInterpolation::Hermite:
-		xs = InterpHermiteFunc(X - (float)x0);
-		ys = InterpHermiteFunc(Y - (float)y0);
-		zs = InterpHermiteFunc(Z - (float)z0);
+		xs = InterpHermiteFunc(X - static_cast<float>(x0));
+		ys = InterpHermiteFunc(Y - static_cast<float>(y0));
+		zs = InterpHermiteFunc(Z - static_cast<float>(z0));
 		break;
 	case EInterpolation::Quintic:
-		xs = InterpQuinticFunc(X - (float)x0);
-		ys = InterpQuinticFunc(Y - (float)y0);
-		zs = InterpQuinticFunc(Z - (float)z0);
+		xs = InterpQuinticFunc(X - static_cast<float>(x0));
+		ys = InterpQuinticFunc(Y - static_cast<float>(y0));
+		zs = InterpQuinticFunc(Z - static_cast<float>(z0));
 		break;
 	}
 
-	float xd0 = X - (float)x0;
-	float yd0 = Y - (float)y0;
-	float zd0 = Z - (float)z0;
-	float xd1 = xd0 - 1;
-	float yd1 = yd0 - 1;
-	float zd1 = zd0 - 1;
+	const float xd0 = X - static_cast<float>(x0);
+	const float yd0 = Y - static_cast<float>(y0);
+	const float zd0 = Z - static_cast<float>(z0);
+	const float xd1 = xd0 - 1;
+	const float yd1 = yd0 - 1;
+	const float zd1 = zd0 - 1;
 
-	float xf00 = FMath::Lerp(GradientCoordinateValue3D(Seed, x0, y0, z0, xd0, yd0, zd0), GradientCoordinateValue3D(Seed, x1, y0, z0, xd1, yd0, zd0), xs);
-	float xf10 = FMath::Lerp(GradientCoordinateValue3D(Seed, x0, y1, z0, xd0, yd1, zd0), GradientCoordinateValue3D(Seed, x1, y1, z0, xd1, yd1, zd0), xs);
-	float xf01 = FMath::Lerp(GradientCoordinateValue3D(Seed, x0, y0, z1, xd0, yd0, zd1), GradientCoordinateValue3D(Seed, x1, y0, z1, xd1, yd0, zd1), xs);
-	float xf11 = FMath::Lerp(GradientCoordinateValue3D(Seed, x0, y1, z1, xd0, yd1, zd1), GradientCoordinateValue3D(Seed, x1, y1, z1, xd1, yd1, zd1), xs);
+	const float xf00 = FMath::Lerp(GradientCoordinateValue3D(Seed, x0, y0, z0, xd0, yd0, zd0), GradientCoordinateValue3D(Seed, x1, y0, z0, xd1, yd0, zd0), xs);
+	const float xf10 = FMath::Lerp(GradientCoordinateValue3D(Seed, x0, y1, z0, xd0, yd1, zd0), GradientCoordinateValue3D(Seed, x1, y1, z0, xd1, yd1, zd0), xs);
+	const float xf01 = FMath::Lerp(GradientCoordinateValue3D(Seed, x0, y0, z1, xd0, yd0, zd1), GradientCoordinateValue3D(Seed, x1, y0, z1, xd1, yd0, zd1), xs);
+	const float xf11 = FMath::Lerp(GradientCoordinateValue3D(Seed, x0, y1, z1, xd0, yd1, zd1), GradientCoordinateValue3D(Seed, x1, y1, z1, xd1, yd1, zd1), xs);
 
-	float yf0 = FMath::Lerp(xf00, xf10, ys);
-	float yf1 = FMath::Lerp(xf01, xf11, ys);
+	const float yf0 = FMath::Lerp(xf00, xf10, ys);
+	const float yf1 = FMath::Lerp(xf01, xf11, ys);
 
 	return FMath::Lerp(yf0, yf1, zs);
 }
@@ -1265,18 +1406,18 @@ float UFastNoiseFunctionLibrary::SingleSimplexFractalRigidMulti3D(int32 Seed, fl
 float UFastNoiseFunctionLibrary::SingleSimplex3D(int32 Seed, float X, float Y, float Z)
 {
 	float t = (X + Y + Z) * F3;
-	int32 i = FMath::Floor(X + t);
-	int32 j = FMath::Floor(Y + t);
-	int32 k = FMath::Floor(Z + t);
+	const int32 i = FMath::Floor(X + t);
+	const int32 j = FMath::Floor(Y + t);
+	const int32 k = FMath::Floor(Z + t);
 
 	t = (i + j + k) * G3;
-	float X0 = i - t;
-	float Y0 = j - t;
-	float Z0 = k - t;
+	const float X0 = i - t;
+	const float Y0 = j - t;
+	const float Z0 = k - t;
 
-	float x0 = X - X0;
-	float y0 = Y - Y0;
-	float z0 = Z - Z0;
+	const float x0 = X - X0;
+	const float y0 = Y - Y0;
+	const float z0 = Z - Z0;
 
 	int32 i1, j1, k1;
 	int32 i2, j2, k2;
@@ -1312,19 +1453,19 @@ float UFastNoiseFunctionLibrary::SingleSimplex3D(int32 Seed, float X, float Y, f
 		}
 	}
 
-	float x1 = x0 - i1 + G3;
-	float y1 = y0 - j1 + G3;
-	float z1 = z0 - k1 + G3;
-	float x2 = x0 - i2 + 2 * G3;
-	float y2 = y0 - j2 + 2 * G3;
-	float z2 = z0 - k2 + 2 * G3;
-	float x3 = x0 - 1 + 3 * G3;
-	float y3 = y0 - 1 + 3 * G3;
-	float z3 = z0 - 1 + 3 * G3;
+	const float x1 = x0 - i1 + G3;
+	const float y1 = y0 - j1 + G3;
+	const float z1 = z0 - k1 + G3;
+	const float x2 = x0 - i2 + 2 * G3;
+	const float y2 = y0 - j2 + 2 * G3;
+	const float z2 = z0 - k2 + 2 * G3;
+	const float x3 = x0 - 1 + 3 * G3;
+	const float y3 = y0 - 1 + 3 * G3;
+	const float z3 = z0 - 1 + 3 * G3;
 
 	float n0, n1, n2, n3;
 
-	t = float(0.6) - x0 * x0 - y0 * y0 - z0 * z0;
+	t = static_cast<float>(0.6) - x0 * x0 - y0 * y0 - z0 * z0;
 	if (t < 0) n0 = 0;
 	else
 	{
@@ -1332,7 +1473,7 @@ float UFastNoiseFunctionLibrary::SingleSimplex3D(int32 Seed, float X, float Y, f
 		n0 = t * t * GradientCoordinateValue3D(Seed, i, j, k, x0, y0, z0);
 	}
 
-	t = float(0.6) - x1 * x1 - y1 * y1 - z1 * z1;
+	t = static_cast<float>(0.6) - x1 * x1 - y1 * y1 - z1 * z1;
 	if (t < 0) n1 = 0;
 	else
 	{
@@ -1340,7 +1481,7 @@ float UFastNoiseFunctionLibrary::SingleSimplex3D(int32 Seed, float X, float Y, f
 		n1 = t * t * GradientCoordinateValue3D(Seed, i + i1, j + j1, k + k1, x1, y1, z1);
 	}
 
-	t = float(0.6) - x2 * x2 - y2 * y2 - z2 * z2;
+	t = static_cast<float>(0.6) - x2 * x2 - y2 * y2 - z2 * z2;
 	if (t < 0) n2 = 0;
 	else
 	{
@@ -1348,7 +1489,7 @@ float UFastNoiseFunctionLibrary::SingleSimplex3D(int32 Seed, float X, float Y, f
 		n2 = t * t * GradientCoordinateValue3D(Seed, i + i2, j + j2, k + k2, x2, y2, z2);
 	}
 
-	t = float(0.6) - x3 * x3 - y3 * y3 - z3 * z3;
+	t = static_cast<float>(0.6) - x3 * x3 - y3 * y3 - z3 * z3;
 	if (t < 0) n3 = 0;
 	else
 	{
@@ -1418,23 +1559,23 @@ float UFastNoiseFunctionLibrary::SingleCubicFractalRigidMulti3D(int32 Seed, floa
 
 float UFastNoiseFunctionLibrary::SingleCubic3D(int32 Seed, float X, float Y, float Z)
 {
-	int32 x1 = FMath::Floor(X);
-	int32 y1 = FMath::Floor(Y);
-	int32 z1 = FMath::Floor(Z);
+	const int32 x1 = FMath::Floor(X);
+	const int32 y1 = FMath::Floor(Y);
+	const int32 z1 = FMath::Floor(Z);
 
-	int32 x0 = x1 - 1;
-	int32 y0 = y1 - 1;
-	int32 z0 = z1 - 1;
-	int32 x2 = x1 + 1;
-	int32 y2 = y1 + 1;
-	int32 z2 = z1 + 1;
-	int32 x3 = x1 + 2;
-	int32 y3 = y1 + 2;
-	int32 z3 = z1 + 2;
+	const int32 x0 = x1 - 1;
+	const int32 y0 = y1 - 1;
+	const int32 z0 = z1 - 1;
+	const int32 x2 = x1 + 1;
+	const int32 y2 = y1 + 1;
+	const int32 z2 = z1 + 1;
+	const int32 x3 = x1 + 2;
+	const int32 y3 = y1 + 2;
+	const int32 z3 = z1 + 2;
 
-	float xs = X - (float)x1;
-	float ys = Y - (float)y1;
-	float zs = Z - (float)z1;
+	const float xs = X - static_cast<float>(x1);
+	const float ys = Y - static_cast<float>(y1);
+	const float zs = Z - static_cast<float>(z1);
 
 	return CubicLerp(
 		CubicLerp(
@@ -1461,40 +1602,40 @@ float UFastNoiseFunctionLibrary::SingleCubic3D(int32 Seed, float X, float Y, flo
 			CubicLerp(SeededCoordinateValue3D(Seed, x0, y2, z3), SeededCoordinateValue3D(Seed, x1, y2, z3), SeededCoordinateValue3D(Seed, x2, y2, z3), SeededCoordinateValue3D(Seed, x3, y2, z3), xs),
 			CubicLerp(SeededCoordinateValue3D(Seed, x0, y3, z3), SeededCoordinateValue3D(Seed, x1, y3, z3), SeededCoordinateValue3D(Seed, x2, y3, z3), SeededCoordinateValue3D(Seed, x3, y3, z3), xs),
 			ys),
-		zs) * CUBIC_3D_BOUNDING;
+		zs) * GCubic_3D_Bounding;
 }
 
 void UFastNoiseFunctionLibrary::SingleGradientPerturb3D(int32 Seed, float Perturb, float Frequency, EInterpolation Interpolation, float& X, float& Y, float& Z)
 {
-	float xf = X * Frequency;
-	float yf = Y * Frequency;
-	float zf = Z * Frequency;
+	const float xf = X * Frequency;
+	const float yf = Y * Frequency;
+	const float zf = Z * Frequency;
 
-	int32 x0 = FMath::Floor(xf);
-	int32 y0 = FMath::Floor(yf);
-	int32 z0 = FMath::Floor(zf);
-	int32 x1 = x0 + 1;
-	int32 y1 = y0 + 1;
-	int32 z1 = z0 + 1;
+	const int32 x0 = FMath::Floor(xf);
+	const int32 y0 = FMath::Floor(yf);
+	const int32 z0 = FMath::Floor(zf);
+	const int32 x1 = x0 + 1;
+	const int32 y1 = y0 + 1;
+	const int32 z1 = z0 + 1;
 
 	float xs, ys, zs;
 	switch (Interpolation)
 	{
 	default:
 	case EInterpolation::Linear:
-		xs = xf - (float)x0;
-		ys = yf - (float)y0;
-		zs = zf - (float)z0;
+		xs = xf - static_cast<float>(x0);
+		ys = yf - static_cast<float>(y0);
+		zs = zf - static_cast<float>(z0);
 		break;
 	case EInterpolation::Hermite:
-		xs = InterpHermiteFunc(xf - (float)x0);
-		ys = InterpHermiteFunc(yf - (float)y0);
-		zs = InterpHermiteFunc(zf - (float)z0);
+		xs = InterpHermiteFunc(xf - static_cast<float>(x0));
+		ys = InterpHermiteFunc(yf - static_cast<float>(y0));
+		zs = InterpHermiteFunc(zf - static_cast<float>(z0));
 		break;
 	case EInterpolation::Quintic:
-		xs = InterpQuinticFunc(xf - (float)x0);
-		ys = InterpQuinticFunc(yf - (float)y0);
-		zs = InterpQuinticFunc(zf - (float)z0);
+		xs = InterpQuinticFunc(xf - static_cast<float>(x0));
+		ys = InterpQuinticFunc(yf - static_cast<float>(y0));
+		zs = InterpQuinticFunc(zf - static_cast<float>(z0));
 		break;
 	}
 
@@ -1512,9 +1653,9 @@ void UFastNoiseFunctionLibrary::SingleGradientPerturb3D(int32 Seed, float Pertur
 	float ly1x = FMath::Lerp(Cell1.Y, Cell2.Y, xs);
 	float lz1x = FMath::Lerp(Cell1.Z, Cell2.Z, xs);
 
-	float lx0y = FMath::Lerp(lx0x, lx1x, ys);
-	float ly0y = FMath::Lerp(ly0x, ly1x, ys);
-	float lz0y = FMath::Lerp(lz0x, lz1x, ys);
+	const float lx0y = FMath::Lerp(lx0x, lx1x, ys);
+	const float ly0y = FMath::Lerp(ly0x, ly1x, ys);
+	const float lz0y = FMath::Lerp(lz0x, lz1x, ys);
 
 	Cell1 = GCell3D[Hash3D(Seed, x0, y0, z1) & 255];
 	Cell2 = GCell3D[Hash3D(Seed, x1, y0, z1) & 255];
@@ -1542,7 +1683,7 @@ float UFastNoiseFunctionLibrary::SeededCoordinateValue3D(int32 Seed, int32 X, in
 	n ^= Y_PRIME * Y;
 	n ^= Z_PRIME * Z;
 
-	return (n * n * n * 60493) / float(2147483648);
+	return (n * n * n * 60493) / static_cast<float>(2147483648);
 }
 
 float UFastNoiseFunctionLibrary::GradientCoordinateValue3D(int32 Seed, int32 X, int32 Y, int32 Z, float Xd, float Yd, float Zd)
@@ -1554,6 +1695,7 @@ float UFastNoiseFunctionLibrary::GradientCoordinateValue3D(int32 Seed, int32 X, 
 
 	n = (n * n * n * 60493);
 	const FIntVector Gradient3D = GGradient3DLut[n & 15];
+	n = (n >> 13) ^ Seed;
 
 	return Xd * Gradient3D.X + Yd * Gradient3D.Y + Zd * Gradient3D.Z;
 }
@@ -1623,19 +1765,19 @@ float UFastNoiseFunctionLibrary::SingleSimplex4D(int32 Seed, float X, float Y, f
 {
 	float n0, n1, n2, n3, n4;
 	float t = (X + Y + Z + W) * F4;
-	int32 i = FMath::Floor(X + t);
-	int32 j = FMath::Floor(Y + t);
-	int32 k = FMath::Floor(Z + t);
-	int32 l = FMath::Floor(W + t);
+	const int32 i = FMath::Floor(X + t);
+	const int32 j = FMath::Floor(Y + t);
+	const int32 k = FMath::Floor(Z + t);
+	const int32 l = FMath::Floor(W + t);
 	t = (i + j + k + l) * G4;
-	float X0 = i - t;
-	float Y0 = j - t;
-	float Z0 = k - t;
-	float W0 = l - t;
-	float x0 = X - X0;
-	float y0 = Y - Y0;
-	float z0 = Z - Z0;
-	float w0 = W - W0;
+	const float X0 = i - t;
+	const float Y0 = j - t;
+	const float Z0 = k - t;
+	const float W0 = l - t;
+	const float x0 = X - X0;
+	const float y0 = Y - Y0;
+	const float z0 = Z - Z0;
+	const float w0 = W - W0;
 
 	int32 rankx = 0;
 	int32 ranky = 0;
@@ -1649,63 +1791,63 @@ float UFastNoiseFunctionLibrary::SingleSimplex4D(int32 Seed, float X, float Y, f
 	if (y0 > w0) ranky++; else rankw++;
 	if (z0 > w0) rankz++; else rankw++;
 
-	int32 i1 = rankx >= 3 ? 1 : 0;
-	int32 j1 = ranky >= 3 ? 1 : 0;
-	int32 k1 = rankz >= 3 ? 1 : 0;
-	int32 l1 = rankw >= 3 ? 1 : 0;
+	const int32 i1 = rankx >= 3 ? 1 : 0;
+	const int32 j1 = ranky >= 3 ? 1 : 0;
+	const int32 k1 = rankz >= 3 ? 1 : 0;
+	const int32 l1 = rankw >= 3 ? 1 : 0;
 
-	int32 i2 = rankx >= 2 ? 1 : 0;
-	int32 j2 = ranky >= 2 ? 1 : 0;
-	int32 k2 = rankz >= 2 ? 1 : 0;
-	int32 l2 = rankw >= 2 ? 1 : 0;
+	const int32 i2 = rankx >= 2 ? 1 : 0;
+	const int32 j2 = ranky >= 2 ? 1 : 0;
+	const int32 k2 = rankz >= 2 ? 1 : 0;
+	const int32 l2 = rankw >= 2 ? 1 : 0;
 
-	int32 i3 = rankx >= 1 ? 1 : 0;
-	int32 j3 = ranky >= 1 ? 1 : 0;
-	int32 k3 = rankz >= 1 ? 1 : 0;
-	int32 l3 = rankw >= 1 ? 1 : 0;
+	const int32 i3 = rankx >= 1 ? 1 : 0;
+	const int32 j3 = ranky >= 1 ? 1 : 0;
+	const int32 k3 = rankz >= 1 ? 1 : 0;
+	const int32 l3 = rankw >= 1 ? 1 : 0;
 
-	float x1 = x0 - i1 + G4;
-	float y1 = y0 - j1 + G4;
-	float z1 = z0 - k1 + G4;
-	float w1 = w0 - l1 + G4;
-	float x2 = x0 - i2 + 2 * G4;
-	float y2 = y0 - j2 + 2 * G4;
-	float z2 = z0 - k2 + 2 * G4;
-	float w2 = w0 - l2 + 2 * G4;
-	float x3 = x0 - i3 + 3 * G4;
-	float y3 = y0 - j3 + 3 * G4;
-	float z3 = z0 - k3 + 3 * G4;
-	float w3 = w0 - l3 + 3 * G4;
-	float x4 = x0 - 1 + 4 * G4;
-	float y4 = y0 - 1 + 4 * G4;
-	float z4 = z0 - 1 + 4 * G4;
-	float w4 = w0 - 1 + 4 * G4;
+	const float x1 = x0 - i1 + G4;
+	const float y1 = y0 - j1 + G4;
+	const float z1 = z0 - k1 + G4;
+	const float w1 = w0 - l1 + G4;
+	const float x2 = x0 - i2 + 2 * G4;
+	const float y2 = y0 - j2 + 2 * G4;
+	const float z2 = z0 - k2 + 2 * G4;
+	const float w2 = w0 - l2 + 2 * G4;
+	const float x3 = x0 - i3 + 3 * G4;
+	const float y3 = y0 - j3 + 3 * G4;
+	const float z3 = z0 - k3 + 3 * G4;
+	const float w3 = w0 - l3 + 3 * G4;
+	const float x4 = x0 - 1 + 4 * G4;
+	const float y4 = y0 - 1 + 4 * G4;
+	const float z4 = z0 - 1 + 4 * G4;
+	const float w4 = w0 - 1 + 4 * G4;
 
-	t = float(0.6) - x0 * x0 - y0 * y0 - z0 * z0 - w0 * w0;
+	t = static_cast<float>(0.6) - x0 * x0 - y0 * y0 - z0 * z0 - w0 * w0;
 	if (t < 0) n0 = 0;
 	else {
 		t *= t;
 		n0 = t * t * GradientCoordinateValue4D(Seed, i, j, k, l, x0, y0, z0, w0);
 	}
-	t = float(0.6) - x1 * x1 - y1 * y1 - z1 * z1 - w1 * w1;
+	t = static_cast<float>(0.6) - x1 * x1 - y1 * y1 - z1 * z1 - w1 * w1;
 	if (t < 0) n1 = 0;
 	else {
 		t *= t;
 		n1 = t * t * GradientCoordinateValue4D(Seed, i + i1, j + j1, k + k1, l + l1, x1, y1, z1, w1);
 	}
-	t = float(0.6) - x2 * x2 - y2 * y2 - z2 * z2 - w2 * w2;
+	t = static_cast<float>(0.6) - x2 * x2 - y2 * y2 - z2 * z2 - w2 * w2;
 	if (t < 0) n2 = 0;
 	else {
 		t *= t;
 		n2 = t * t * GradientCoordinateValue4D(Seed, i + i2, j + j2, k + k2, l + l2, x2, y2, z2, w2);
 	}
-	t = float(0.6) - x3 * x3 - y3 * y3 - z3 * z3 - w3 * w3;
+	t = static_cast<float>(0.6) - x3 * x3 - y3 * y3 - z3 * z3 - w3 * w3;
 	if (t < 0) n3 = 0;
 	else {
 		t *= t;
 		n3 = t * t * GradientCoordinateValue4D(Seed, i + i3, j + j3, k + k3, l + l3, x3, y3, z3, w3);
 	}
-	t = float(0.6) - x4 * x4 - y4 * y4 - z4 * z4 - w4 * w4;
+	t = static_cast<float>(0.6) - x4 * x4 - y4 * y4 - z4 * z4 - w4 * w4;
 	if (t < 0) n4 = 0;
 	else {
 		t *= t;
@@ -1723,7 +1865,7 @@ float UFastNoiseFunctionLibrary::SeededCoordinateValue4D(int32 Seed, int32 X, in
 	n ^= Z_PRIME * Z;
 	n ^= W_PRIME * W;
 	
-	return (n * n * n * 60493) / float(2147483648);
+	return (n * n * n * 60493) / static_cast<float>(2147483648);
 	
 }
 
@@ -1736,6 +1878,8 @@ float UFastNoiseFunctionLibrary::GradientCoordinateValue4D(int32 Seed, int32 X, 
 	n ^= W_PRIME * W;
 
 	n = (n * n * n * 60493);
+	n = (n >> 13) ^ Seed;
+	
 	const FIntVector4 Gradient4D = GGradient4DLut[n & 31];
 
 	return Xd * Gradient4D.X + Yd * Gradient4D.Y + Zd * Gradient4D.Z + Wd * Gradient4D.W;
