@@ -328,6 +328,8 @@ class FASTNOISEPLUGIN_API UFastNoiseGraphFunctionLibrary : public UBlueprintFunc
 {
 	GENERATED_BODY()
 public:
+	UFUNCTION(BlueprintPure, meta = (DisplayName = "float To FNoiseOperation2D", CompactNodeTitle = "->", ScriptMethod = "float", BlueprintAutoCast), Category = "FastNoise")
+		static FNoiseOperation2D Conv_FloatToFNoiseOperation2D(float Value) { return Value; }
 	
 	UFUNCTION(BlueprintPure, meta=(DisplayName = "FValue2DOperation To FNoiseOperation2D", CompactNodeTitle = "->", ScriptMethod = "FNoiseOperation2D", BlueprintAutoCast), Category = "FastNoise")
 		static FNoiseOperation2D Conv_FValue2DOperationToFNoiseOperation2D(const FValue2DOperation& Value) { return Value; }
@@ -362,19 +364,22 @@ public:
 #undef CONVERSION
 	
 	// MATHS
+	UFUNCTION(BlueprintPure, meta = (DisplayName = "To Scalar", CompactNodeTitle = "->", Keywords = "Scalar"), Category = "Math|FastNoise")
+		static FNoiseOperation2D ToScalar_FNoiseOperation2D(const FNoiseOperation2D& NoiseOperation2D);
+	
 	UFUNCTION(BlueprintPure, meta = (DisplayName = "FNoiseOperation2D + FNoiseOperation2D", CompactNodeTitle = "+", Keywords = "+ add plus", CommutativeAssociativeBinaryOperator = "true"), Category = "Math|FastNoise")
-	static FNoiseOperation2D Add_FNoiseOperation2DFNoiseOperation2D(const FNoiseOperation2D& A, const FNoiseOperation2D& B);
+		static FNoiseOperation2D Add_FNoiseOperation2DFNoiseOperation2D(const FNoiseOperation2D& A, const FNoiseOperation2D& B);
 
 	UFUNCTION(BlueprintPure, meta=(DisplayName = "FNoiseOperation2D - FNoiseOperation2D", CompactNodeTitle = "-", Keywords = "- subtract minus", CommutativeAssociativeBinaryOperator = "true"), Category = "Math|FastNoise")
-	static FNoiseOperation2D Subtract_FNoiseOperation2DFNoiseOperation2D(const FNoiseOperation2D& A, const FNoiseOperation2D& B);
+		static FNoiseOperation2D Subtract_FNoiseOperation2DFNoiseOperation2D(const FNoiseOperation2D& A, const FNoiseOperation2D& B);
 
 	UFUNCTION(BlueprintPure, meta=(DisplayName = "FNoiseOperation2D * FNoiseOperation2D", CompactNodeTitle = "*", Keywords = "* multiply times", CommutativeAssociativeBinaryOperator = "true"), Category = "Math|FastNoise")
-	static FNoiseOperation2D Multiply_FNoiseOperation2DFNoiseOperation2D(const FNoiseOperation2D& A, const FNoiseOperation2D& B);
+		static FNoiseOperation2D Multiply_FNoiseOperation2DFNoiseOperation2D(const FNoiseOperation2D& A, const FNoiseOperation2D& B);
 
 	UFUNCTION(BlueprintPure, meta=(DisplayName = "FNoiseOperation2D / FNoiseOperation2D", CompactNodeTitle = "/", Keywords = "/ divide divided", CommutativeAssociativeBinaryOperator = "true"), Category = "Math|FastNoise")
-	static FNoiseOperation2D Divide_FNoiseOperation2DFNoiseOperation2D(const FNoiseOperation2D& A, const FNoiseOperation2D& B);
-
+		static FNoiseOperation2D Divide_FNoiseOperation2DFNoiseOperation2D(const FNoiseOperation2D& A, const FNoiseOperation2D& B);
+	
 	UFUNCTION(BlueprintPure, Category = "FastNoise", meta = (DisplayName = "GetValue"))
-	static float CalculateNoiseOperation2D(const FNoiseOperation2D& ValueOperation2D, float X, float Y);
+		static float CalculateNoiseOperation2D(const FNoiseOperation2D& ValueOperation2D, float X, float Y);
 
 };

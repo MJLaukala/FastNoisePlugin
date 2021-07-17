@@ -29,6 +29,16 @@ float FNoiseOperation2D::GetValue(const FVector2D& Vector2D) const
 	return OperationMathLambda(Vector2D.X, Vector2D.Y);
 }
 
+FNoiseOperation2D UFastNoiseGraphFunctionLibrary::ToScalar_FNoiseOperation2D(const FNoiseOperation2D& NoiseOperation2D)
+{
+	FNoiseOperation2D Operation;
+	Operation.OperationMathLambda = [=](const float X, const float Y)
+	{
+		return NoiseOperation2D.OperationMathLambda(X, Y) + 1.f / 2.f;
+	};
+	return Operation;
+}
+
 FNoiseOperation2D UFastNoiseGraphFunctionLibrary::Add_FNoiseOperation2DFNoiseOperation2D(const FNoiseOperation2D& A, const FNoiseOperation2D& B)
 {
 	FNoiseOperation2D Operation;
