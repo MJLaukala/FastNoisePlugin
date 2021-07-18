@@ -11,39 +11,49 @@
 #include "FastNoiseGraphFunctionLibrary.generated.h"
 
 
-typedef std::function<float(float X, float Y)> F2DOperationLambda; 
+typedef std::function<float(float X, float Y)> F2DOperationLambda;
 
 USTRUCT(BlueprintType)
-struct FASTNOISEPLUGIN_API FNoiseOperation2D
+struct FASTNOISEPLUGIN_API FLambdaOperation2D
 {
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float DefaultValue;
-	
 	F2DOperationLambda OperationMathLambda;
 
 	GENERATED_BODY()
 
-		FNoiseOperation2D();
-	FNoiseOperation2D(float InDefaultValue);
-	
-	virtual ~FNoiseOperation2D() = default;
+	FLambdaOperation2D();
+	// ReSharper disable once CppNonExplicitConvertingConstructor
+	FLambdaOperation2D(float Value);
+
+	virtual ~FLambdaOperation2D() = default;
 
 	float GetValue(float X, float Y) const;
 	float GetValue(const FVector2D& Vector2D) const;
 };
 
+USTRUCT(BlueprintType)
+struct FASTNOISEPLUGIN_API FStaticValue2D : public FLambdaOperation2D
+{
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float Value;
+	
+	GENERATED_BODY()
+
+	FStaticValue2D();
+	// ReSharper disable once CppNonExplicitConvertingConstructor
+	FStaticValue2D(float InDefaultValue);
+};
 
 USTRUCT(BlueprintType)
-struct FASTNOISEPLUGIN_API FValue2DOperation : public FNoiseOperation2D
+struct FASTNOISEPLUGIN_API FValue2DOperation : public FLambdaOperation2D
 {
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	int32 Seed;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Amplitude;
+	FLambdaOperation2D Amplitude;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	FNoiseOperation2D Frequency;
+	FLambdaOperation2D Frequency;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	EInterpolation Interpolation;
@@ -60,35 +70,35 @@ struct FASTNOISEPLUGIN_API FValue2DOperation : public FNoiseOperation2D
 };
 
 USTRUCT(BlueprintType)
-struct FASTNOISEPLUGIN_API FValueFractal2D : public FNoiseOperation2D
+struct FASTNOISEPLUGIN_API FValueFractal2D : public FLambdaOperation2D
 {
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		int32 Seed;
+	int32 Seed;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Amplitude;
+	FLambdaOperation2D Amplitude;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Frequency;
+	FLambdaOperation2D Frequency;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Lacunarity;
+	FLambdaOperation2D Lacunarity;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Gain;
+	FLambdaOperation2D Gain;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		int32 Octaves;
+	int32 Octaves;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		EInterpolation Interpolation;
+	EInterpolation Interpolation;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		EFractalType FractalType;
+	EFractalType FractalType;
 
 	GENERATED_BODY()
 
-		FValueFractal2D() : Seed(0), Amplitude(1), Octaves(0), Interpolation(EInterpolation::Linear), FractalType(EFractalType::Billow)
+	FValueFractal2D() : Seed(0), Amplitude(1), Octaves(0), Interpolation(EInterpolation::Linear), FractalType(EFractalType::Billow)
 	{
 		OperationMathLambda = [=](const float X, const float Y)
 		{
@@ -98,26 +108,26 @@ struct FASTNOISEPLUGIN_API FValueFractal2D : public FNoiseOperation2D
 };
 
 USTRUCT(BlueprintType)
-struct FASTNOISEPLUGIN_API FPerlin2D : public FNoiseOperation2D
+struct FASTNOISEPLUGIN_API FPerlin2D : public FLambdaOperation2D
 {
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		int32 Seed;
+	int32 Seed;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Amplitude;
+	FLambdaOperation2D Amplitude;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Frequency;
+	FLambdaOperation2D Frequency;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Lacunarity;
+	FLambdaOperation2D Lacunarity;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		EInterpolation Interpolation;
+	EInterpolation Interpolation;
 
 	GENERATED_BODY()
 
-		FPerlin2D() : Seed(0), Amplitude(1), Interpolation(EInterpolation::Linear)
+	FPerlin2D() : Seed(0), Amplitude(1), Interpolation(EInterpolation::Linear)
 	{
 		OperationMathLambda = [=](const float X, const float Y)
 		{
@@ -127,35 +137,35 @@ struct FASTNOISEPLUGIN_API FPerlin2D : public FNoiseOperation2D
 };
 
 USTRUCT(BlueprintType)
-struct FASTNOISEPLUGIN_API FPerlinFractal2D : public FNoiseOperation2D
+struct FASTNOISEPLUGIN_API FPerlinFractal2D : public FLambdaOperation2D
 {
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		int32 Seed;
+	int32 Seed;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Amplitude;
+	FLambdaOperation2D Amplitude;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Frequency;
+	FLambdaOperation2D Frequency;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Lacunarity;
+	FLambdaOperation2D Lacunarity;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Gain;
+	FLambdaOperation2D Gain;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		int32 Octaves;
+	int32 Octaves;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		EInterpolation Interpolation;
+	EInterpolation Interpolation;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		EFractalType FractalType;
+	EFractalType FractalType;
 
 	GENERATED_BODY()
 
-		FPerlinFractal2D() : Seed(0), Amplitude(1), Octaves(0), Interpolation(EInterpolation::Linear), FractalType(EFractalType::Billow)
+	FPerlinFractal2D() : Seed(0), Amplitude(1), Octaves(0), Interpolation(EInterpolation::Linear), FractalType(EFractalType::Billow)
 	{
 		OperationMathLambda = [=](const float X, const float Y)
 		{
@@ -165,20 +175,20 @@ struct FASTNOISEPLUGIN_API FPerlinFractal2D : public FNoiseOperation2D
 };
 
 USTRUCT(BlueprintType)
-struct FASTNOISEPLUGIN_API FSimplex2D : public FNoiseOperation2D
+struct FASTNOISEPLUGIN_API FSimplex2D : public FLambdaOperation2D
 {
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		int32 Seed;
+	int32 Seed;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Amplitude;
+	FLambdaOperation2D Amplitude;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Frequency;
+	FLambdaOperation2D Frequency;
 
 	GENERATED_BODY()
 
-		FSimplex2D() : Seed(0), Amplitude(1)
+	FSimplex2D() : Seed(0), Amplitude(1)
 	{
 		OperationMathLambda = [=](const float X, const float Y)
 		{
@@ -188,32 +198,32 @@ struct FASTNOISEPLUGIN_API FSimplex2D : public FNoiseOperation2D
 };
 
 USTRUCT(BlueprintType)
-struct FASTNOISEPLUGIN_API FSimplexFractal2D : public FNoiseOperation2D
+struct FASTNOISEPLUGIN_API FSimplexFractal2D : public FLambdaOperation2D
 {
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		int32 Seed;
+	int32 Seed;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Amplitude;
+	FLambdaOperation2D Amplitude;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Frequency;
+	FLambdaOperation2D Frequency;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Lacunarity;
+	FLambdaOperation2D Lacunarity;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Gain;
+	FLambdaOperation2D Gain;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		int32 Octaves;
+	int32 Octaves;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		EFractalType FractalType;
+	EFractalType FractalType;
 
 	GENERATED_BODY()
 
-		FSimplexFractal2D() : Seed(0), Amplitude(1), Octaves(0), FractalType(EFractalType::Billow)
+	FSimplexFractal2D() : Seed(0), Amplitude(1), Octaves(0), FractalType(EFractalType::Billow)
 	{
 		OperationMathLambda = [=](const float X, const float Y)
 		{
@@ -223,17 +233,17 @@ struct FASTNOISEPLUGIN_API FSimplexFractal2D : public FNoiseOperation2D
 };
 
 USTRUCT(BlueprintType)
-struct FASTNOISEPLUGIN_API FWhiteNoise2D : public FNoiseOperation2D
+struct FASTNOISEPLUGIN_API FWhiteNoise2D : public FLambdaOperation2D
 {
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		int32 Seed;
+	int32 Seed;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Amplitude;
+	FLambdaOperation2D Amplitude;
 
 	GENERATED_BODY()
 
-		FWhiteNoise2D() : Seed(0), Amplitude(1)
+	FWhiteNoise2D() : Seed(0), Amplitude(1)
 	{
 		OperationMathLambda = [=](const float X, const float Y)
 		{
@@ -243,17 +253,17 @@ struct FASTNOISEPLUGIN_API FWhiteNoise2D : public FNoiseOperation2D
 };
 
 USTRUCT(BlueprintType)
-struct FASTNOISEPLUGIN_API FWhiteNoiseInt2D : public FNoiseOperation2D
+struct FASTNOISEPLUGIN_API FWhiteNoiseInt2D : public FLambdaOperation2D
 {
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		int32 Seed;
+	int32 Seed;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Amplitude;
+	FLambdaOperation2D Amplitude;
 
 	GENERATED_BODY()
 
-		FWhiteNoiseInt2D() : Seed(0), Amplitude(1)
+	FWhiteNoiseInt2D() : Seed(0), Amplitude(1)
 	{
 		OperationMathLambda = [=](const float X, const float Y)
 		{
@@ -263,20 +273,20 @@ struct FASTNOISEPLUGIN_API FWhiteNoiseInt2D : public FNoiseOperation2D
 };
 
 USTRUCT(BlueprintType)
-struct FASTNOISEPLUGIN_API FCubic2D : public FNoiseOperation2D
+struct FASTNOISEPLUGIN_API FCubic2D : public FLambdaOperation2D
 {
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		int32 Seed;
+	int32 Seed;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Amplitude;
+	FLambdaOperation2D Amplitude;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Frequency;
+	FLambdaOperation2D Frequency;
 
 	GENERATED_BODY()
 
-		FCubic2D() : Seed(0), Amplitude(1)
+	FCubic2D() : Seed(0), Amplitude(1)
 	{
 		OperationMathLambda = [=](const float X, const float Y)
 		{
@@ -286,32 +296,32 @@ struct FASTNOISEPLUGIN_API FCubic2D : public FNoiseOperation2D
 };
 
 USTRUCT(BlueprintType)
-struct FASTNOISEPLUGIN_API FCubicFractal2D : public FNoiseOperation2D
+struct FASTNOISEPLUGIN_API FCubicFractal2D : public FLambdaOperation2D
 {
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		int32 Seed;
+	int32 Seed;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Amplitude;
+	FLambdaOperation2D Amplitude;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Frequency;
+	FLambdaOperation2D Frequency;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Lacunarity;
+	FLambdaOperation2D Lacunarity;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		FNoiseOperation2D Gain;
+	FLambdaOperation2D Gain;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		int32 Octaves;
+	int32 Octaves;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		EFractalType FractalType;
+	EFractalType FractalType;
 
 	GENERATED_BODY()
 
-		FCubicFractal2D() : Seed(0), Amplitude(1), Octaves(0), FractalType(EFractalType::Billow)
+	FCubicFractal2D() : Seed(0), Amplitude(1), Octaves(0), FractalType(EFractalType::Billow)
 	{
 		OperationMathLambda = [=](const float X, const float Y)
 		{
@@ -324,62 +334,126 @@ struct FASTNOISEPLUGIN_API FCubicFractal2D : public FNoiseOperation2D
  * 
  */
 UCLASS()
-class FASTNOISEPLUGIN_API UFastNoiseGraphFunctionLibrary : public UBlueprintFunctionLibrary
+class FASTNOISEPLUGIN_API UFastNoiseGraphFunctionLibrary final : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 public:
-	UFUNCTION(BlueprintPure, meta = (DisplayName = "float To FNoiseOperation2D", CompactNodeTitle = "->", ScriptMethod = "float", BlueprintAutoCast), Category = "FastNoise")
-		static FNoiseOperation2D Conv_FloatToFNoiseOperation2D(float Value) { return Value; }
-	
-	UFUNCTION(BlueprintPure, meta=(DisplayName = "FValue2DOperation To FNoiseOperation2D", CompactNodeTitle = "->", ScriptMethod = "FNoiseOperation2D", BlueprintAutoCast), Category = "FastNoise")
-		static FNoiseOperation2D Conv_FValue2DOperationToFNoiseOperation2D(const FValue2DOperation& Value) { return Value; }
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "float To FLambdaOperation2D", CompactNodeTitle = "->", ScriptMethod = "FLambdaOperation2D", BlueprintAutoCast), Category = "FastNoise")
+	static FLambdaOperation2D Conv_FloatToFLambdaOperation2D(const float Value) { return Value; }
 
-	UFUNCTION(BlueprintPure, meta = (DisplayName = "FValueFractal2D To FNoiseOperation2D", CompactNodeTitle = "->", ScriptMethod = "FNoiseOperation2D", BlueprintAutoCast), Category = "FastNoise")
-		static FNoiseOperation2D Conv_FValueFractal2DToFValueOperation2D(const FValueFractal2D& Value) { return Value; }
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "FStaticValue2D To FLambdaOperation2D", CompactNodeTitle = "->", ScriptMethod = "FLambdaOperation2D", BlueprintAutoCast), Category = "FastNoise")
+	static FLambdaOperation2D Conv_FStaticValue2DToFLambdaOperation2D(const FStaticValue2D Value) { return FLambdaOperation2D(Value); }
 
-	UFUNCTION(BlueprintPure, meta = (DisplayName = "FPerlin2D To FNoiseOperation2D", CompactNodeTitle = "->", ScriptMethod = "FNoiseOperation2D", BlueprintAutoCast), Category = "FastNoise")
-		static FNoiseOperation2D Conv_FPerlin2DToFValueOperation2D(const FPerlin2D& Value) { return Value; }
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "FValue2DOperation To FLambdaOperation2D", CompactNodeTitle = "->", ScriptMethod = "FLambdaOperation2D", BlueprintAutoCast), Category = "FastNoise")
+	static FLambdaOperation2D Conv_FValue2DOperationToFLambdaOperation2D(const FValue2DOperation& Value) { return FLambdaOperation2D(Value); }
 
-	UFUNCTION(BlueprintPure, meta = (DisplayName = "FPerlinFractal2D To FNoiseOperation2D", CompactNodeTitle = "->", ScriptMethod = "FNoiseOperation2D", BlueprintAutoCast), Category = "FastNoise")
-		static FNoiseOperation2D Conv_FPerlinFractal2DToFValueOperation2D(const FPerlinFractal2D& Value) { return Value; }
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "FValueFractal2D To FLambdaOperation2D", CompactNodeTitle = "->", ScriptMethod = "FLambdaOperation2D", BlueprintAutoCast), Category = "FastNoise")
+	static FLambdaOperation2D Conv_FValueFractal2DToFValueOperation2D(const FValueFractal2D& Value) { return FLambdaOperation2D(Value); }
 
-	UFUNCTION(BlueprintPure, meta = (DisplayName = "FSimplex2D To FNoiseOperation2D", CompactNodeTitle = "->", ScriptMethod = "FNoiseOperation2D", BlueprintAutoCast), Category = "FastNoise")
-		static FNoiseOperation2D Conv_FSimplex2DToFValueOperation2D(const FSimplex2D& Value) { return Value; }
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "FPerlin2D To FLambdaOperation2D", CompactNodeTitle = "->", ScriptMethod = "FLambdaOperation2D", BlueprintAutoCast), Category = "FastNoise")
+	static FLambdaOperation2D Conv_FPerlin2DToFValueOperation2D(const FPerlin2D& Value) { return FLambdaOperation2D(Value); }
 
-	UFUNCTION(BlueprintPure, meta = (DisplayName = "FSimplexFractal2D To FNoiseOperation2D", CompactNodeTitle = "->", ScriptMethod = "FNoiseOperation2D", BlueprintAutoCast), Category = "FastNoise")
-		static FNoiseOperation2D Conv_FSimplexFractal2DToFValueOperation2D(const FSimplexFractal2D& Value) { return Value; }
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "FPerlinFractal2D To FLambdaOperation2D", CompactNodeTitle = "->", ScriptMethod = "FLambdaOperation2D", BlueprintAutoCast), Category = "FastNoise")
+	static FLambdaOperation2D Conv_FPerlinFractal2DToFValueOperation2D(const FPerlinFractal2D& Value) { return FLambdaOperation2D(Value); }
 
-	UFUNCTION(BlueprintPure, meta = (DisplayName = "FWhiteNoise2D To FNoiseOperation2D", CompactNodeTitle = "->", ScriptMethod = "FNoiseOperation2D", BlueprintAutoCast), Category = "FastNoise")
-		static FNoiseOperation2D Conv_FWhiteNoise2DToFValueOperation2D(const FWhiteNoise2D& Value) { return Value; }
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "FSimplex2D To FLambdaOperation2D", CompactNodeTitle = "->", ScriptMethod = "FLambdaOperation2D", BlueprintAutoCast), Category = "FastNoise")
+	static FLambdaOperation2D Conv_FSimplex2DToFValueOperation2D(const FSimplex2D& Value) { return FLambdaOperation2D(Value); }
 
-	UFUNCTION(BlueprintPure, meta = (DisplayName = "FWhiteNoiseInt2D To FNoiseOperation2D", CompactNodeTitle = "->", ScriptMethod = "FNoiseOperation2D", BlueprintAutoCast), Category = "FastNoise")
-		static FNoiseOperation2D Conv_FWhiteNoiseInt2DToFValueOperation2D(const FWhiteNoiseInt2D& Value) { return Value; }
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "FSimplexFractal2D To FLambdaOperation2D", CompactNodeTitle = "->", ScriptMethod = "FLambdaOperation2D", BlueprintAutoCast), Category = "FastNoise")
+	static FLambdaOperation2D Conv_FSimplexFractal2DToFValueOperation2D(const FSimplexFractal2D& Value) { return FLambdaOperation2D(Value); }
 
-	UFUNCTION(BlueprintPure, meta = (DisplayName = "FCubic2D To FNoiseOperation2D", CompactNodeTitle = "->", ScriptMethod = "FNoiseOperation2D", BlueprintAutoCast), Category = "FastNoise")
-		static FNoiseOperation2D Conv_FCubic2DToFValueOperation2D(const FCubic2D& Value) { return Value; }
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "FWhiteNoise2D To FLambdaOperation2D", CompactNodeTitle = "->", ScriptMethod = "FLambdaOperation2D", BlueprintAutoCast), Category = "FastNoise")
+	static FLambdaOperation2D Conv_FWhiteNoise2DToFValueOperation2D(const FWhiteNoise2D& Value) { return FLambdaOperation2D(Value); }
 
-	UFUNCTION(BlueprintPure, meta = (DisplayName = "FCubicFractal2D To FNoiseOperation2D", CompactNodeTitle = "->", ScriptMethod = "FNoiseOperation2D", BlueprintAutoCast), Category = "FastNoise")
-		static FNoiseOperation2D Conv_FCubicFractal2DToFValueOperation2D(const FCubicFractal2D& Value) { return Value; }
-		
-#undef CONVERSION
-	
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "FWhiteNoiseInt2D To FLambdaOperation2D", CompactNodeTitle = "->", ScriptMethod = "FLambdaOperation2D", BlueprintAutoCast), Category = "FastNoise")
+	static FLambdaOperation2D Conv_FWhiteNoiseInt2DToFValueOperation2D(const FWhiteNoiseInt2D& Value) { return FLambdaOperation2D(Value); }
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "FCubic2D To FLambdaOperation2D", CompactNodeTitle = "->", ScriptMethod = "FLambdaOperation2D", BlueprintAutoCast), Category = "FastNoise")
+	static FLambdaOperation2D Conv_FCubic2DToFValueOperation2D(const FCubic2D& Value) { return FLambdaOperation2D(Value); }
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "FCubicFractal2D To FLambdaOperation2D", CompactNodeTitle = "->", ScriptMethod = "FLambdaOperation2D", BlueprintAutoCast), Category = "FastNoise")
+	static FLambdaOperation2D Conv_FCubicFractal2DToFValueOperation2D(const FCubicFractal2D& Value) { return static_cast<FLambdaOperation2D>(Value); }
+
 	// MATHS
-	UFUNCTION(BlueprintPure, meta = (DisplayName = "To Scalar", CompactNodeTitle = "->", Keywords = "Scalar"), Category = "Math|FastNoise")
-		static FNoiseOperation2D ToScalar_FNoiseOperation2D(const FNoiseOperation2D& NoiseOperation2D);
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "To Scalar", CompactNodeTitle = "->", Keywords = "Scalar"), Category = "Math|FastNoise")
+	static FLambdaOperation2D ToScalar_FLambdaOperation2D(const FLambdaOperation2D& NoiseOperation2D);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName="FLambdaOperation2D ^ FLambdaOperation2D", CompactTitleNode="^", Keywords="^ power"), Category="Math|FastNoise")
+	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	static FLambdaOperation2D MultiplyMultiply_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& Base, const FLambdaOperation2D& Exponent);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName="FLambdaOperation2D % FLambdaOperation2D", CompactTitleNode="%", Keywords="% modulus"), Category="Math|FastNoise")
+	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	static FLambdaOperation2D Percent_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName="FLambdaOperation2D Fraction", CompactTitleNode="F", Keywords="Fraction"), Category="Math|FastNoise")
+	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	static FLambdaOperation2D Fraction_FLambdaOperation2D(const FLambdaOperation2D& NoiseOperation2D);
 	
-	UFUNCTION(BlueprintPure, meta = (DisplayName = "FNoiseOperation2D + FNoiseOperation2D", CompactNodeTitle = "+", Keywords = "+ add plus", CommutativeAssociativeBinaryOperator = "true"), Category = "Math|FastNoise")
-		static FNoiseOperation2D Add_FNoiseOperation2DFNoiseOperation2D(const FNoiseOperation2D& A, const FNoiseOperation2D& B);
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "FLambdaOperation2D + FLambdaOperation2D", CompactNodeTitle = "+", Keywords = "+ add plus", CommutativeAssociativeBinaryOperator = "true"), Category = "Math|FastNoise")
+	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	static FLambdaOperation2D Add_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B);
 
-	UFUNCTION(BlueprintPure, meta=(DisplayName = "FNoiseOperation2D - FNoiseOperation2D", CompactNodeTitle = "-", Keywords = "- subtract minus", CommutativeAssociativeBinaryOperator = "true"), Category = "Math|FastNoise")
-		static FNoiseOperation2D Subtract_FNoiseOperation2DFNoiseOperation2D(const FNoiseOperation2D& A, const FNoiseOperation2D& B);
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "FLambdaOperation2D - FLambdaOperation2D", CompactNodeTitle = "-", Keywords = "- subtract minus", CommutativeAssociativeBinaryOperator = "true"), Category = "Math|FastNoise")
+	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	static FLambdaOperation2D Subtract_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B);
 
-	UFUNCTION(BlueprintPure, meta=(DisplayName = "FNoiseOperation2D * FNoiseOperation2D", CompactNodeTitle = "*", Keywords = "* multiply times", CommutativeAssociativeBinaryOperator = "true"), Category = "Math|FastNoise")
-		static FNoiseOperation2D Multiply_FNoiseOperation2DFNoiseOperation2D(const FNoiseOperation2D& A, const FNoiseOperation2D& B);
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "FLambdaOperation2D * FLambdaOperation2D", CompactNodeTitle = "*", Keywords = "* multiply times", CommutativeAssociativeBinaryOperator = "true"), Category = "Math|FastNoise")
+	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	static FLambdaOperation2D Multiply_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B);
 
-	UFUNCTION(BlueprintPure, meta=(DisplayName = "FNoiseOperation2D / FNoiseOperation2D", CompactNodeTitle = "/", Keywords = "/ divide divided", CommutativeAssociativeBinaryOperator = "true"), Category = "Math|FastNoise")
-		static FNoiseOperation2D Divide_FNoiseOperation2DFNoiseOperation2D(const FNoiseOperation2D& A, const FNoiseOperation2D& B);
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "FLambdaOperation2D / FLambdaOperation2D", CompactNodeTitle = "/", Keywords = "/ divide divided"), Category = "Math|FastNoise")
+	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	static FLambdaOperation2D Divide_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "FLambdaOperation2D < FLambdaOperation2D", CompactNodeTitle = "<", Keywords = "< less"), Category = "Math|FastNoise")
+	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	static FLambdaOperation2D Less_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B, const FLambdaOperation2D& TrueOperation, const FLambdaOperation2D& FalseOperation);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "FLambdaOperation2D <= FLambdaOperation2D", CompactNodeTitle = "<=", Keywords = "<= less"), Category = "Math|FastNoise")
+	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	static FLambdaOperation2D LessEqual_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B, const FLambdaOperation2D& TrueOperation, const FLambdaOperation2D& FalseOperation);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "FLambdaOperation2D > FLambdaOperation2D", CompactNodeTitle = ">", Keywords = "> greater"), Category = "Math|FastNoise")
+	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	static FLambdaOperation2D Greater_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B, const FLambdaOperation2D& TrueOperation, const FLambdaOperation2D& FalseOperation);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "FLambdaOperation2D >= FLambdaOperation2D", CompactNodeTitle = ">=", Keywords = ">= Greater"), Category = "Math|FastNoise")
+	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	static FLambdaOperation2D GreaterEqual_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B, const FLambdaOperation2D& TrueOperation, const FLambdaOperation2D& FalseOperation);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "FLambdaOperation2D == FLambdaOperation2D", CompactNodeTitle = "==", Keywords = "== equal"), Category = "Math|FastNoise")
+	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	static FLambdaOperation2D EqualEqual_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B, const FLambdaOperation2D& TrueOperation, const FLambdaOperation2D& FalseOperation);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "FLambdaOperation2D != FLambdaOperation2D", CompactNodeTitle = "!=", Keywords = "!= not equal"), Category = "Math|FastNoise")
+	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	static FLambdaOperation2D NotEqual_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B, const FLambdaOperation2D& TrueOperation, const FLambdaOperation2D& FalseOperation);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Min (FLambdaOperation2D)", CompactNodeTitle = "Min", CommutativeAssociativeBinaryOperator = "true", Keywords = "Min"), Category = "Math|FastNoise")
+	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	static FLambdaOperation2D Min_FLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Max (FLambdaOperation2D)", CompactNodeTitle = "Max", CommutativeAssociativeBinaryOperator = "true", Keywords = "Max"), Category = "Math|FastNoise")
+	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	static FLambdaOperation2D Max_FLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Clamp (FLambdaOperation2D)", CompactNodeTitle = "Clamp", Keywords = "Clamp"), Category = "Math|FastNoise")
+	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	static FLambdaOperation2D Clamp_FLambdaOperation2D(const FLambdaOperation2D& Value, const FLambdaOperation2D& Min, const FLambdaOperation2D& Max);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Wrap (FLambdaOperation2D)", CompactNodeTitle = "Wrap", Keywords = "Wrap"), Category = "Math|FastNoise")
+	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	static FLambdaOperation2D Wrap_FLambdaOperation2D(const FLambdaOperation2D& Value, const FLambdaOperation2D& Min, const FLambdaOperation2D& Max);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Lerp (FLambdaOperation2D)", CompactNodeTitle = "Lerp", Keywords = "Lerp"), Category = "Math|FastNoise")
+	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	static FLambdaOperation2D Lerp_FLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B, const FLambdaOperation2D& Alpha);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "NormalizeToRange (FLambdaOperation2D)", CompactNodeTitle = "Normalize", Keywords = "Normalize Range"), Category = "Math|FastNoise")
+	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	static FLambdaOperation2D NormalizeToRange_FLambdaOperation2D(const FLambdaOperation2D& Value, const FLambdaOperation2D& RangeMin, const FLambdaOperation2D& RangeMax);
 	
 	UFUNCTION(BlueprintPure, Category = "FastNoise", meta = (DisplayName = "GetValue"))
-		static float CalculateNoiseOperation2D(const FNoiseOperation2D& ValueOperation2D, float X, float Y);
-
+	static float CalculateNoiseOperation2D(const FLambdaOperation2D& ValueOperation2D, float X, float Y);
 };
