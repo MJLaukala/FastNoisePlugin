@@ -128,6 +128,16 @@ FLambdaOperation2D UFastNoiseGraphFunctionLibrary::Divide_FLambdaOperation2DFLam
 	return Operation;
 }
 
+FLambdaOperation2D UFastNoiseGraphFunctionLibrary::SafeDivide_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B)
+{
+	FLambdaOperation2D Operation;
+	Operation.OperationMathLambda = [=](const float X, const float Y)
+	{
+		return UKismetMathLibrary::SafeDivide(A.OperationMathLambda(X, Y), B.OperationMathLambda(X, Y));
+	};
+	return Operation;
+}
+
 FLambdaOperation2D UFastNoiseGraphFunctionLibrary::Less_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B, const FLambdaOperation2D& TrueOperation, const FLambdaOperation2D& FalseOperation)
 {
 	FLambdaOperation2D Operation;

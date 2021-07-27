@@ -338,11 +338,11 @@ class FASTNOISEPLUGIN_API UFastNoiseGraphFunctionLibrary final : public UBluepri
 {
 	GENERATED_BODY()
 public:
-	UFUNCTION(BlueprintPure, meta=(DisplayName = "float To FLambdaOperation2D", CompactNodeTitle = "->", ScriptMethod = "FLambdaOperation2D", BlueprintAutoCast), Category = "FastNoise")
-	static FLambdaOperation2D Conv_FloatToFLambdaOperation2D(const float Value) { return Value; }
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "float To FLambdaOperation2D", CompactNodeTitle = "->", BlueprintAutoCast), Category = "FastNoise")
+	static FLambdaOperation2D Conv_FloatToFLambdaOperation2D(const float& Value) { return FLambdaOperation2D(Value); }
 
 	UFUNCTION(BlueprintPure, meta=(DisplayName = "FStaticValue2D To FLambdaOperation2D", CompactNodeTitle = "->", ScriptMethod = "FLambdaOperation2D", BlueprintAutoCast), Category = "FastNoise")
-	static FLambdaOperation2D Conv_FStaticValue2DToFLambdaOperation2D(const FStaticValue2D Value) { return FLambdaOperation2D(Value); }
+	static FLambdaOperation2D Conv_FStaticValue2DToFLambdaOperation2D(const FStaticValue2D& Value) { return FLambdaOperation2D(Value); }
 
 	UFUNCTION(BlueprintPure, meta=(DisplayName = "FValue2DOperation To FLambdaOperation2D", CompactNodeTitle = "->", ScriptMethod = "FLambdaOperation2D", BlueprintAutoCast), Category = "FastNoise")
 	static FLambdaOperation2D Conv_FValue2DOperationToFLambdaOperation2D(const FValue2DOperation& Value) { return FLambdaOperation2D(Value); }
@@ -375,83 +375,67 @@ public:
 	static FLambdaOperation2D Conv_FCubicFractal2DToFValueOperation2D(const FCubicFractal2D& Value) { return static_cast<FLambdaOperation2D>(Value); }
 
 	// MATHS
-	UFUNCTION(BlueprintPure, meta=(DisplayName = "To Scalar", CompactNodeTitle = "->", Keywords = "Scalar"), Category = "Math|FastNoise")
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "To Scalar", CompactNodeTitle = "To Scalar", Keywords = "Scalar"), Category = "Math|FastNoise")
 	static FLambdaOperation2D ToScalar_FLambdaOperation2D(const FLambdaOperation2D& NoiseOperation2D);
 
-	UFUNCTION(BlueprintPure, meta=(DisplayName="FLambdaOperation2D ^ FLambdaOperation2D", CompactTitleNode="^", Keywords="^ power"), Category="Math|FastNoise")
-	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	UFUNCTION(BlueprintPure, meta=(DisplayName="Power", Keywords="^ power"), Category="Math|FastNoise")
 	static FLambdaOperation2D MultiplyMultiply_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& Base, const FLambdaOperation2D& Exponent);
 
-	UFUNCTION(BlueprintPure, meta=(DisplayName="FLambdaOperation2D % FLambdaOperation2D", CompactTitleNode="%", Keywords="% modulus"), Category="Math|FastNoise")
-	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	UFUNCTION(BlueprintPure, meta=(DisplayName="Modulus", CompactNodeTitle="%", Keywords="% modulus"), Category="Math|FastNoise")
 	static FLambdaOperation2D Percent_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B);
 
-	UFUNCTION(BlueprintPure, meta=(DisplayName="FLambdaOperation2D Fraction", CompactTitleNode="F", Keywords="Fraction"), Category="Math|FastNoise")
-	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	UFUNCTION(BlueprintPure, meta=(DisplayName="Fraction", CompactNodeTitle="F", Keywords="Fraction"), Category="Math|FastNoise")
 	static FLambdaOperation2D Fraction_FLambdaOperation2D(const FLambdaOperation2D& NoiseOperation2D);
 	
-	UFUNCTION(BlueprintPure, meta=(DisplayName = "FLambdaOperation2D + FLambdaOperation2D", CompactNodeTitle = "+", Keywords = "+ add plus", CommutativeAssociativeBinaryOperator = "true"), Category = "Math|FastNoise")
-	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Plus", CompactNodeTitle = "+", Keywords = "+ add plus", CommutativeAssociativeBinaryOperator = "true"), Category = "Math|FastNoise")
 	static FLambdaOperation2D Add_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B);
 
-	UFUNCTION(BlueprintPure, meta=(DisplayName = "FLambdaOperation2D - FLambdaOperation2D", CompactNodeTitle = "-", Keywords = "- subtract minus", CommutativeAssociativeBinaryOperator = "true"), Category = "Math|FastNoise")
-	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Minus", CompactNodeTitle = "-", Keywords = "- subtract minus", CommutativeAssociativeBinaryOperator = "true"), Category = "Math|FastNoise")
 	static FLambdaOperation2D Subtract_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B);
 
-	UFUNCTION(BlueprintPure, meta=(DisplayName = "FLambdaOperation2D * FLambdaOperation2D", CompactNodeTitle = "*", Keywords = "* multiply times", CommutativeAssociativeBinaryOperator = "true"), Category = "Math|FastNoise")
-	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Multiply", CompactNodeTitle = "*", Keywords = "* multiply times", CommutativeAssociativeBinaryOperator = "true"), Category = "Math|FastNoise")
 	static FLambdaOperation2D Multiply_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B);
 
-	UFUNCTION(BlueprintPure, meta=(DisplayName = "FLambdaOperation2D / FLambdaOperation2D", CompactNodeTitle = "/", Keywords = "/ divide divided"), Category = "Math|FastNoise")
-	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Divide", CompactNodeTitle = "/", Keywords = "/ divide divided"), Category = "Math|FastNoise")
 	static FLambdaOperation2D Divide_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B);
 
-	UFUNCTION(BlueprintPure, meta=(DisplayName = "FLambdaOperation2D < FLambdaOperation2D", CompactNodeTitle = "<", Keywords = "< less"), Category = "Math|FastNoise")
-	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Safe Divide", CompactNodeTitle = "÷(Safe)", Keywords = "safe / divide divided"), Category = "Math|FastNoise")
+	static FLambdaOperation2D SafeDivide_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Less Than", Keywords = "< less"), Category = "Math|FastNoise")
 	static FLambdaOperation2D Less_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B, const FLambdaOperation2D& TrueOperation, const FLambdaOperation2D& FalseOperation);
 
-	UFUNCTION(BlueprintPure, meta=(DisplayName = "FLambdaOperation2D <= FLambdaOperation2D", CompactNodeTitle = "<=", Keywords = "<= less"), Category = "Math|FastNoise")
-	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Less Than Equal To", Keywords = "<= less"), Category = "Math|FastNoise")
 	static FLambdaOperation2D LessEqual_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B, const FLambdaOperation2D& TrueOperation, const FLambdaOperation2D& FalseOperation);
 
-	UFUNCTION(BlueprintPure, meta=(DisplayName = "FLambdaOperation2D > FLambdaOperation2D", CompactNodeTitle = ">", Keywords = "> greater"), Category = "Math|FastNoise")
-	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Greater Than", Keywords = "> greater"), Category = "Math|FastNoise")
 	static FLambdaOperation2D Greater_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B, const FLambdaOperation2D& TrueOperation, const FLambdaOperation2D& FalseOperation);
 
-	UFUNCTION(BlueprintPure, meta=(DisplayName = "FLambdaOperation2D >= FLambdaOperation2D", CompactNodeTitle = ">=", Keywords = ">= Greater"), Category = "Math|FastNoise")
-	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Greater Than Equal To", Keywords = ">= Greater"), Category = "Math|FastNoise")
 	static FLambdaOperation2D GreaterEqual_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B, const FLambdaOperation2D& TrueOperation, const FLambdaOperation2D& FalseOperation);
 
-	UFUNCTION(BlueprintPure, meta=(DisplayName = "FLambdaOperation2D == FLambdaOperation2D", CompactNodeTitle = "==", Keywords = "== equal"), Category = "Math|FastNoise")
-	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Equal To", Keywords = "== equal"), Category = "Math|FastNoise")
 	static FLambdaOperation2D EqualEqual_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B, const FLambdaOperation2D& TrueOperation, const FLambdaOperation2D& FalseOperation);
 
-	UFUNCTION(BlueprintPure, meta=(DisplayName = "FLambdaOperation2D != FLambdaOperation2D", CompactNodeTitle = "!=", Keywords = "!= not equal"), Category = "Math|FastNoise")
-	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Not Equal To", Keywords = "!= not equal"), Category = "Math|FastNoise")
 	static FLambdaOperation2D NotEqual_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B, const FLambdaOperation2D& TrueOperation, const FLambdaOperation2D& FalseOperation);
 
-	UFUNCTION(BlueprintPure, meta=(DisplayName = "Min (FLambdaOperation2D)", CompactNodeTitle = "Min", CommutativeAssociativeBinaryOperator = "true", Keywords = "Min"), Category = "Math|FastNoise")
-	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Min", CompactNodeTitle = "Min", CommutativeAssociativeBinaryOperator = "true", Keywords = "Min"), Category = "Math|FastNoise")
 	static FLambdaOperation2D Min_FLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B);
 
-	UFUNCTION(BlueprintPure, meta=(DisplayName = "Max (FLambdaOperation2D)", CompactNodeTitle = "Max", CommutativeAssociativeBinaryOperator = "true", Keywords = "Max"), Category = "Math|FastNoise")
-	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Max", CompactNodeTitle = "Max", CommutativeAssociativeBinaryOperator = "true", Keywords = "Max"), Category = "Math|FastNoise")
 	static FLambdaOperation2D Max_FLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B);
 
-	UFUNCTION(BlueprintPure, meta=(DisplayName = "Clamp (FLambdaOperation2D)", CompactNodeTitle = "Clamp", Keywords = "Clamp"), Category = "Math|FastNoise")
-	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Clamp", Keywords = "Clamp"), Category = "Math|FastNoise")
 	static FLambdaOperation2D Clamp_FLambdaOperation2D(const FLambdaOperation2D& Value, const FLambdaOperation2D& Min, const FLambdaOperation2D& Max);
 
-	UFUNCTION(BlueprintPure, meta=(DisplayName = "Wrap (FLambdaOperation2D)", CompactNodeTitle = "Wrap", Keywords = "Wrap"), Category = "Math|FastNoise")
-	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Wrap", Keywords = "Wrap"), Category = "Math|FastNoise")
 	static FLambdaOperation2D Wrap_FLambdaOperation2D(const FLambdaOperation2D& Value, const FLambdaOperation2D& Min, const FLambdaOperation2D& Max);
 
-	UFUNCTION(BlueprintPure, meta=(DisplayName = "Lerp (FLambdaOperation2D)", CompactNodeTitle = "Lerp", Keywords = "Lerp"), Category = "Math|FastNoise")
-	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Lerp", Keywords = "Lerp"), Category = "Math|FastNoise")
 	static FLambdaOperation2D Lerp_FLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B, const FLambdaOperation2D& Alpha);
 
-	UFUNCTION(BlueprintPure, meta=(DisplayName = "NormalizeToRange (FLambdaOperation2D)", CompactNodeTitle = "Normalize", Keywords = "Normalize Range"), Category = "Math|FastNoise")
-	// ReSharper disable once CppUE4CodingStandardNamingViolationWarning
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Normalize To Range", Keywords = "Normalize Range"), Category = "Math|FastNoise")
 	static FLambdaOperation2D NormalizeToRange_FLambdaOperation2D(const FLambdaOperation2D& Value, const FLambdaOperation2D& RangeMin, const FLambdaOperation2D& RangeMax);
 	
 	UFUNCTION(BlueprintPure, Category = "FastNoise", meta = (DisplayName = "GetValue"))
