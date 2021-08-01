@@ -198,6 +198,17 @@ FLambdaOperation2D UFastNoiseGraphFunctionLibrary::NotEqual_FLambdaOperation2DFL
 	return Operation;
 }
 
+FLambdaOperation2D UFastNoiseGraphFunctionLibrary::InRange_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& In, const FLambdaOperation2D& Min, const FLambdaOperation2D& Max, const FLambdaOperation2D& TrueOperation, const FLambdaOperation2D& FalseOperation)
+{
+	FLambdaOperation2D Operation;
+	Operation.OperationMathLambda = [=](const float X, const float Y)
+	{
+		const float InValue = In.OperationMathLambda(X, Y);
+		return (InValue > Min.OperationMathLambda(X, Y) && InValue < Max.OperationMathLambda(X, Y)) ? TrueOperation.OperationMathLambda(X, Y) : FalseOperation.OperationMathLambda(X, Y);
+	};
+	return Operation;
+}
+
 FLambdaOperation2D UFastNoiseGraphFunctionLibrary::Min_FLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B)
 {
 	FLambdaOperation2D Operation;

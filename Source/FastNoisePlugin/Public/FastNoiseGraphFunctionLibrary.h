@@ -420,6 +420,9 @@ public:
 	UFUNCTION(BlueprintPure, meta=(DisplayName = "Not Equal To", Keywords = "!= not equal"), Category = "Math|FastNoise")
 	static FLambdaOperation2D NotEqual_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B, const FLambdaOperation2D& TrueOperation, const FLambdaOperation2D& FalseOperation);
 
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "In Range", Keywords = "in range"), Category = "Math|FastNoise")
+	static FLambdaOperation2D InRange_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& In, const FLambdaOperation2D& Min, const FLambdaOperation2D& Max, const FLambdaOperation2D& TrueOperation, const FLambdaOperation2D& FalseOperation);
+
 	UFUNCTION(BlueprintPure, meta=(DisplayName = "Min", CompactNodeTitle = "Min", CommutativeAssociativeBinaryOperator = "true", Keywords = "Min"), Category = "Math|FastNoise")
 	static FLambdaOperation2D Min_FLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B);
 
