@@ -9,7 +9,8 @@ FLambdaOperation2D::FLambdaOperation2D()
 {
 	OperationMathLambda = [=](const float X, const float Y)
 	{
-		return 0.f;
+		// TODO:: Default to 1.f until Custom thunks or node are written.
+		return 1.f;
 	};
 }
 
@@ -29,22 +30,6 @@ float FLambdaOperation2D::GetValue(float X, float Y) const
 float FLambdaOperation2D::GetValue(const FVector2D& Vector2D) const
 {
 	return OperationMathLambda(Vector2D.X, Vector2D.Y);
-}
-
-FStaticValue2D::FStaticValue2D(): Value(0)
-{
-	OperationMathLambda = [=](const float X, const float Y)
-	{
-		return Value;
-	};
-}
-
-FStaticValue2D::FStaticValue2D(float InDefaultValue): Value(InDefaultValue)
-{
-	OperationMathLambda = [=](const float X, const float Y)
-	{
-		return Value;
-	};
 }
 
 FLambdaOperation2D UFastNoiseGraphFunctionLibrary::ToScalar_FLambdaOperation2D(const FLambdaOperation2D& NoiseOperation2D)

@@ -46,23 +46,6 @@ enum class EFractalType : uint8
 	RigidMulti
 };
 
-UENUM(BlueprintType)
-enum class ESelectInterpolationType : uint8
-{
-	None,
-	CircularIn,
-	CircularOut,
-	CircularInOut,
-	ExponentialIn,
-	ExponentialOut,
-	ExponentialInOut,
-	SineIn,
-	SineOut,
-	SineInOut,
-	Step,
-	Linear
-};
-
 UCLASS() 
 class FASTNOISEPLUGIN_API UFastNoiseFunctionLibrary final : public UBlueprintFunctionLibrary
 {
