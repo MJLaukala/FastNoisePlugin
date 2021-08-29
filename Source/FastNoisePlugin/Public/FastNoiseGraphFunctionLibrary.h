@@ -4,19 +4,18 @@
 
 #include "CoreMinimal.h"
 
-#include <functional>
-
 #include "FastNoiseFunctionLibrary.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "FastNoiseGraphFunctionLibrary.generated.h"
 
 
-typedef std::function<float(float X, float Y)> F2DOperationLambda;
+//typedef std::function<float(float X, float Y)> F2DOperationLambda;
+typedef TDelegate<float(float X, float Y)> F2DOperationDelegate;
 
 USTRUCT(BlueprintType)
 struct FASTNOISEPLUGIN_API FLambdaOperation2D
 {
-	F2DOperationLambda OperationMathLambda;
+	F2DOperationDelegate OperationDelegate;
 
 	GENERATED_BODY()
 
@@ -83,14 +82,27 @@ public:
 		*static_cast<FLambdaOperation2D*>(RESULT_PARAM) = BlueprintGraphFunction_GetValue2D(Amplitude, Frequency, Seed, Interpolation);
 	}*/
 
+	UFUNCTION(BlueprintPure, meta=(DisplayName="GetSin2D", Keywords="Sin 2D"), Category="Math|FastNoise|GraphFunctions")
+	static FLambdaOperation2D BlueprintGraphFunction_GetSin2D(FLambdaOperation2D Amplitude, FLambdaOperation2D Frequency)
+	{
+		FLambdaOperation2D Operation;
+		Operation.OperationDelegate.BindLambda([=](const float X, const float Y)
+		{
+			const auto F = Frequency.GetValue(X, Y);
+			const auto A = Amplitude.GetValue(X, Y);
+			return (FMath::Sin(X * F) + FMath::Sin(Y * F)) / 2.f * A;
+		});
+		return Operation;
+	}
+	
 	UFUNCTION(BlueprintPure, meta=(DisplayName="GetValue2D", Keywords="Value 2D"), Category="Math|FastNoise|GraphFunctions")
 	static FLambdaOperation2D BlueprintGraphFunction_GetValue2D(FLambdaOperation2D Amplitude, FLambdaOperation2D Frequency, const int32 Seed = 1337, const EInterpolation Interpolation = EInterpolation::Linear)
 	{
 		FLambdaOperation2D Operation;
-		Operation.OperationMathLambda = [=](const float X, const float Y)
+		Operation.OperationDelegate.BindLambda([=](const float X, const float Y)
 		{
 			return Amplitude.GetValue(X, Y) * UFastNoiseFunctionLibrary::GetValue2D(Seed, Frequency.GetValue(X, Y), Interpolation, X, Y);
-		};
+		});
 		return Operation;
 	}
 	
@@ -98,10 +110,10 @@ public:
 	static FLambdaOperation2D BlueprintGraphFunction_GetValueFractal2D(FLambdaOperation2D Amplitude, FLambdaOperation2D Frequency, FLambdaOperation2D Lacunarity, FLambdaOperation2D Gain, const int32 Seed = 1337, const int32 Octaves = 1, const EInterpolation Interpolation = EInterpolation::Linear, const EFractalType FractalType = EFractalType::FBM)
 	{
 		FLambdaOperation2D Operation;
-		Operation.OperationMathLambda = [=](const float X, const float Y)
+		Operation.OperationDelegate.BindLambda([=](const float X, const float Y)
 		{
 			return Amplitude.GetValue(X, Y) * UFastNoiseFunctionLibrary::GetValueFractal2D(Seed, Frequency.GetValue(X, Y), Lacunarity.GetValue(X, Y), Gain.GetValue(X, Y), Octaves, Interpolation, FractalType, X, Y);
-		};
+		});
 		return Operation;
 	}
 	
@@ -109,10 +121,10 @@ public:
 	static FLambdaOperation2D BlueprintGraphFunction_GetPerlin2D(FLambdaOperation2D Amplitude, FLambdaOperation2D Frequency, FLambdaOperation2D Lacunarity, const int32 Seed = 1337, const EInterpolation Interpolation = EInterpolation::Linear)
 	{
 		FLambdaOperation2D Operation;
-		Operation.OperationMathLambda = [=](const float X, const float Y)
+		Operation.OperationDelegate.BindLambda([=](const float X, const float Y)
 		{
 			return Amplitude.GetValue(X, Y) * UFastNoiseFunctionLibrary::GetPerlin2D(Seed, Frequency.GetValue(X, Y), Interpolation, X, Y);
-		};
+		});
 		return Operation;
 	}
 	
@@ -120,10 +132,10 @@ public:
 	static FLambdaOperation2D BlueprintGraphFunction_GetPerlinFractal2D(FLambdaOperation2D Amplitude, FLambdaOperation2D Frequency, FLambdaOperation2D Lacunarity, FLambdaOperation2D Gain, const int32 Seed = 1337, const int32 Octaves = 1, const EInterpolation Interpolation = EInterpolation::Linear, const EFractalType FractalType = EFractalType::FBM)
 	{
 		FLambdaOperation2D Operation;
-		Operation.OperationMathLambda = [=](const float X, const float Y)
+		Operation.OperationDelegate.BindLambda([=](const float X, const float Y)
 		{
 			return Amplitude.GetValue(X, Y) * UFastNoiseFunctionLibrary::GetPerlinFractal2D(Seed, Frequency.GetValue(X, Y), Lacunarity.GetValue(X, Y), Gain.GetValue(X, Y), Octaves, Interpolation, FractalType, X, Y);
-		};
+		});
 		return Operation;
 	}
 
@@ -131,10 +143,10 @@ public:
 	static FLambdaOperation2D BlueprintGraphFunction_GetSimplex2D(FLambdaOperation2D Amplitude, FLambdaOperation2D Frequency, const int32 Seed = 1337)
 	{
 		FLambdaOperation2D Operation;
-		Operation.OperationMathLambda = [=](const float X, const float Y)
+		Operation.OperationDelegate.BindLambda([=](const float X, const float Y)
 		{
 			return Amplitude.GetValue(X, Y) * UFastNoiseFunctionLibrary::GetSimplex2D(Seed, Frequency.GetValue(X, Y), X, Y);
-		};
+		});
 		return Operation;
 	}
 	
@@ -142,10 +154,10 @@ public:
 	static FLambdaOperation2D BlueprintGraphFunction_GetSimplexFractal2D(FLambdaOperation2D Amplitude, FLambdaOperation2D Frequency, FLambdaOperation2D Lacunarity, FLambdaOperation2D Gain, const int32 Seed = 1337, const int32 Octaves = 1, const EFractalType FractalType = EFractalType::FBM)
 	{
 		FLambdaOperation2D Operation;
-		Operation.OperationMathLambda = [=](const float X, const float Y)
+		Operation.OperationDelegate.BindLambda([=](const float X, const float Y)
 		{
 			return Amplitude.GetValue(X, Y) * UFastNoiseFunctionLibrary::GetSimplexFractal2D(Seed, Frequency.GetValue(X, Y), Lacunarity.GetValue(X, Y), Gain.GetValue(X, Y), Octaves, FractalType, X, Y);
-		};
+		});
 		return Operation;
 	}
 	
@@ -153,10 +165,10 @@ public:
 	static FLambdaOperation2D BlueprintGraphFunction_GetWhiteNoise2D(FLambdaOperation2D Amplitude, const int32 Seed = 1337)
 	{
 		FLambdaOperation2D Operation;
-		Operation.OperationMathLambda = [=](const float X, const float Y)
+		Operation.OperationDelegate.BindLambda([=](const float X, const float Y)
 		{
 			return Amplitude.GetValue(X, Y) * UFastNoiseFunctionLibrary::GetWhiteNoise2D(Seed, X, Y);
-		};
+		});
 		return Operation;
 	}
 	
@@ -164,10 +176,10 @@ public:
 	static FLambdaOperation2D BlueprintGraphFunction_GetWhiteNoiseInt2D(FLambdaOperation2D Amplitude, const int32 Seed = 1337)
 	{
 		FLambdaOperation2D Operation;
-		Operation.OperationMathLambda = [=](const float X, const float Y)
+		Operation.OperationDelegate.BindLambda([=](const float X, const float Y)
 		{
 			return Amplitude.GetValue(X, Y) * UFastNoiseFunctionLibrary::GetWhiteNoiseInt2D(Seed, X, Y);
-		};
+		});
 		return Operation;
 	}
 	
@@ -175,10 +187,10 @@ public:
 	static FLambdaOperation2D BlueprintGraphFunction_GetCubic2D(FLambdaOperation2D Amplitude, FLambdaOperation2D Frequency, const int32 Seed = 1337)
 	{
 		FLambdaOperation2D Operation;
-		Operation.OperationMathLambda = [=](const float X, const float Y)
+		Operation.OperationDelegate.BindLambda([=](const float X, const float Y)
 		{
 			return Amplitude.GetValue(X, Y) * UFastNoiseFunctionLibrary::GetCubic2D(Seed, Frequency.GetValue(X, Y), X, Y);
-		};
+		});
 		return Operation;
 	}
 	
@@ -186,26 +198,49 @@ public:
 	static FLambdaOperation2D BlueprintGraphFunction_GetCubicFractal2D(FLambdaOperation2D Amplitude, FLambdaOperation2D Frequency, FLambdaOperation2D Lacunarity, FLambdaOperation2D Gain, const int32 Seed = 1337, const int32 Octaves = 1, const EFractalType FractalType = EFractalType::FBM)
 	{
 		FLambdaOperation2D Operation;
-		Operation.OperationMathLambda = [=](const float X, const float Y)
+		Operation.OperationDelegate.BindLambda([=](const float X, const float Y)
 		{
 			return Amplitude.GetValue(X, Y) * UFastNoiseFunctionLibrary::GetCubicFractal2D(Seed, Frequency.GetValue(X, Y), Lacunarity.GetValue(X, Y), Gain.GetValue(X, Y), Octaves, FractalType, X, Y);
-		};
+		});
 		return Operation;
 	}
 
-
-
-
-
-
-
-	
 	UFUNCTION(BlueprintPure, meta=(DisplayName = "float To FLambdaOperation2D", CompactNodeTitle = "->", BlueprintAutoCast), Category = "FastNoise")
 	static FLambdaOperation2D Conv_FloatToFLambdaOperation2D(const float& Value) { return FLambdaOperation2D(Value); }
 
 	// MATHS
 	UFUNCTION(BlueprintPure, meta=(DisplayName = "To Scalar", CompactNodeTitle = "To Scalar", Keywords = "Scalar"), Category = "Math|FastNoise")
 	static FLambdaOperation2D ToScalar_FLambdaOperation2D(const FLambdaOperation2D& NoiseOperation2D);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Sin", CompactNodeTitle = "Sin", Keywords = "Sin"), Category = "Math|FastNoise")
+	static FLambdaOperation2D Sin_FLambdaOperation2D(const FLambdaOperation2D& NoiseOperation2D);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Asin", CompactNodeTitle = "Asin", Keywords = "Asin"), Category = "Math|FastNoise")
+	static FLambdaOperation2D Asin_FLambdaOperation2D(const FLambdaOperation2D& NoiseOperation2D);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Sinh", CompactNodeTitle = "Sinh", Keywords = "Sinh"), Category = "Math|FastNoise")
+	static FLambdaOperation2D Sinh_FLambdaOperation2D(const FLambdaOperation2D& NoiseOperation2D);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Cos", CompactNodeTitle = "Cos", Keywords = "Cos"), Category = "Math|FastNoise")
+	static FLambdaOperation2D Cos_FLambdaOperation2D(const FLambdaOperation2D& NoiseOperation2D);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Acos", CompactNodeTitle = "Acos", Keywords = "Acos"), Category = "Math|FastNoise")
+	static FLambdaOperation2D Acos_FLambdaOperation2D(const FLambdaOperation2D& NoiseOperation2D);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Tan", CompactNodeTitle = "Tan", Keywords = "Tan"), Category = "Math|FastNoise")
+	static FLambdaOperation2D Tan_FLambdaOperation2D(const FLambdaOperation2D& NoiseOperation2D);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Atan", CompactNodeTitle = "Atan", Keywords = "Atan"), Category = "Math|FastNoise")
+	static FLambdaOperation2D Atan_FLambdaOperation2D(const FLambdaOperation2D& NoiseOperation2D);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "Atan2", CompactNodeTitle = "Atan2", Keywords = "Atan2"), Category = "Math|FastNoise")
+	static FLambdaOperation2D Atan2_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& A, const FLambdaOperation2D& B);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "SquareRoot", CompactNodeTitle = "SquareRoot", Keywords = "SquareRoot"), Category = "Math|FastNoise")
+	static FLambdaOperation2D SquareRoot_FLambdaOperation2D(const FLambdaOperation2D& NoiseOperation2D);
+
+	UFUNCTION(BlueprintPure, meta=(DisplayName = "InverseSquareRoot", CompactNodeTitle = "InverseSquareRoot", Keywords = "InverseSquareRoot"), Category = "Math|FastNoise")
+	static FLambdaOperation2D InverseSquareRoot_FLambdaOperation2D(const FLambdaOperation2D& NoiseOperation2D);
 
 	UFUNCTION(BlueprintPure, meta=(DisplayName="Power", Keywords="^ power"), Category="Math|FastNoise")
 	static FLambdaOperation2D MultiplyMultiply_FLambdaOperation2DFLambdaOperation2D(const FLambdaOperation2D& Base, const FLambdaOperation2D& Exponent);
