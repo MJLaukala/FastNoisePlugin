@@ -211,6 +211,9 @@ public:
 	UFUNCTION(BlueprintPure, meta=(DisplayName="Power", Keywords="^ power"), Category="Math|FastNoise")
 	static FLambdaOperation2D MultiplyMultiply_FLambdaOperation2DFLambdaOperation2D(FLambdaOperation2D Base, FLambdaOperation2D Exponent);
 
+	UFUNCTION(BlueprintPure, meta=(DisplayName="Floor", CompactNodeTitle="Floor", Keywords="Floor"), Category="Math|FastNoise")
+	static FLambdaOperation2D Floor_FLambdaOperation2D(FLambdaOperation2D NoiseOperation2D);
+	
 	UFUNCTION(BlueprintPure, meta=(DisplayName="Modulus", CompactNodeTitle="%", Keywords="% modulus"), Category="Math|FastNoise")
 	static FLambdaOperation2D Percent_FLambdaOperation2DFLambdaOperation2D(FLambdaOperation2D A, FLambdaOperation2D B);
 

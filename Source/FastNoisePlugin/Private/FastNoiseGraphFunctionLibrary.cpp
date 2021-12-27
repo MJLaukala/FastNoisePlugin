@@ -161,6 +161,16 @@ FLambdaOperation2D UFastNoiseGraphFunctionLibrary::MultiplyMultiply_FLambdaOpera
 	return Operation;
 }
 
+FLambdaOperation2D UFastNoiseGraphFunctionLibrary::Floor_FLambdaOperation2D(FLambdaOperation2D NoiseOperation2D)
+{
+	FLambdaOperation2D Operation;
+	Operation.BindLambda([=](const float X, const float Y)
+	{
+		return FMath::Floor(NoiseOperation2D.GetValue(X, Y));
+	});
+	return Operation;
+}
+
 FLambdaOperation2D UFastNoiseGraphFunctionLibrary::Percent_FLambdaOperation2DFLambdaOperation2D(FLambdaOperation2D A, FLambdaOperation2D B)
 {
 	FLambdaOperation2D Operation;
